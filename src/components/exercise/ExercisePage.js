@@ -8,6 +8,7 @@ import ExerciseEditor from './ExerciseEditor';
 import DangerDismissibleAlert from '../DangerDismissibleAlert';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
 function ExercisePage({problem}) {
     return (
@@ -24,6 +25,8 @@ const ExerciseCodingArea = ({exercise, animation}) => {
 
     const [code, setCode] = useState(exercise.defaultStarterCode.join(' '));
 
+    const [isLoading, setLoading] = useState(false);
+
     const [{consoleOutput, result, data, summary}, setConsoleOutput] = useState({
         isSuccess: false,
         consoleOutput: 'There\'s nothing here yet',
@@ -38,13 +41,14 @@ const ExerciseCodingArea = ({exercise, animation}) => {
     });
 
     const sendCodeToServer = (value) => {
+        setLoading(true);
         const request = {
             ...exercise,
             code: value
         };
         console.log({request});
         console.log(process.env);
-        let endpoint = `https://fyp-algorithms-server.herokuapp.com${exercise.endpoint}`;
+        let endpoint = `${process.env.SERVER_DOMAIN}${exercise.endpoint}`;
 
         if (process.env.NODE_ENV === 'development') {
             console.log(process.env.NODE_ENV);
@@ -56,13 +60,15 @@ const ExerciseCodingArea = ({exercise, animation}) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
-            .then(res => res.json())
-            .then(requestResult => {
-                console.log(requestResult);
-                setConsoleOutput(requestResult);
-                alert.setShow(!requestResult.isSuccess);
-            });
+        }).then(res => {
+            return res.json();
+        }).then(requestResult => {
+            console.log(requestResult);
+            setConsoleOutput(requestResult);
+            alert.setShow(!requestResult.isSuccess);
+        }).finally(() => {
+            setLoading(false);
+        });
     };
 
     return (
@@ -74,6 +80,12 @@ const ExerciseCodingArea = ({exercise, animation}) => {
                         <ExerciseEditor code={code} setCode={setCode}/>
                     </ShadowedCard>
                     <div className={'float-right'}>
+                        {isLoading && <Spinner
+                            animation="grow"
+                            size='sm'
+                            role='status'
+                            className={'dark-blue'}
+                        />}{' '}{' '}
                         <Button
                             type='button'
                             className={'btn-dark-blue'}
