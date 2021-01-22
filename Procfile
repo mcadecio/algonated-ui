@@ -1,0 +1,1 @@
+web: --FYP_SERVER_DOMAIN=$FYP_SERVER_DOMAIN bin/boot
