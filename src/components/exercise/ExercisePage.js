@@ -48,7 +48,7 @@ const ExerciseCodingArea = ({exercise, animation}) => {
         };
         console.log({request});
         console.log(process.env.FYP_SERVER_DOMAIN);
-        let endpoint = `${process.env.FYP_SERVER_DOMAIN}${exercise.endpoint}`;
+        let endpoint = `${process.env.REACT_APP_FYP_SERVER_DOMAIN}${exercise.endpoint}`;
 
         if (process.env.NODE_ENV === 'development') {
             console.log(process.env.NODE_ENV);
