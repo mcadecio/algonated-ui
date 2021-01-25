@@ -6,7 +6,9 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import * as d3 from 'd3';
 import data from './data.json';
-import {MyMonacoEditor} from './exercise/ExerciseEditor';
+import '../App.css';
+import SVGScale from './exercise/scales/SVGScale';
+import './anime.css'
 
 
 const CirclesAcross = () => (
@@ -281,7 +283,7 @@ const ChargedAnimationAnimeJS = () => {
                 try {
                     document.querySelector('.el').innerHTML = JSON.stringify(battery);
                 } catch {
-                    console.log('interrupted');
+                    console.debug('interrupted');
                 }
             }
         });
@@ -452,8 +454,195 @@ const SimpleNetworkGraph = () => {
     );
 };
 
-export default function Animations() {
+const ScaleAnimationWithSVG = () => {
+
+    const [rotation, setRotation] = useState(0);
+
+    const animationRef = useRef();
+
+    const [counter, setCounter] = useState(0);
+
+    useEffect(() => {
+
+        const duration = 3000;
+
+        animationRef.current = anime({
+            targets: '.el',
+            keyframes: [
+                {rotate: -30},
+                {rotate: 0},
+                {rotate: 30},
+                {rotate: 0},
+            ],
+            duration: duration,
+            loop: true,
+            easing: 'linear'
+        });
+
+        anime({
+            targets: '#basket-and-handles-left',
+            keyframes: [
+                {translateY: 50},
+                {translateY: 0},
+                {translateY: -50},
+                {translateY: 0},
+            ],
+            duration: duration,
+            loop: true,
+            easing: 'linear'
+        });
+
+        anime({
+            targets: '#basket-and-handles-right',
+            keyframes: [
+                {translateY: -50},
+                {translateY: 0},
+                {translateY: 50},
+                {translateY: 0},
+            ],
+            duration: duration,
+            loop: true,
+            easing: 'linear'
+        });
+
+        setInterval(() => {
+            setCounter(old => old + 1)
+        }, 1500)
+
+        //
+        // setStyle({
+        //     transformBox: "fill-box",
+        //     transformOrigin: 'center',
+        //     transform: `rotate(${rotation}deg)`
+        // })
+    }, [rotation])
+
     return (
-        <MyMonacoEditor/>
+        <>
+            <Button variant={'light'} onClick={() => setRotation(old => old + 1)}>
+                Up
+            </Button>
+            <Button variant={'light'} onClick={() => setRotation(old => old - 1)}>
+                DOWN
+            </Button>
+            <Button onClick={() => animationRef.current.restart()} variant={'light'}>
+                Restart
+            </Button>
+            <SVGScale
+                topPartId={'el'}
+                leftBasketId={'basket-and-handles-left'}
+                rightBasketId={'basket-and-handles-right'}
+                basketInnerText={{left:counter, right: counter}}/>
+        </>
+
     );
 }
+
+const SeekScaleAnimation = ({inputWidth, withOptions = false}) => {
+
+    const [value, setValue] = useState("0");
+
+    const animationScale = useRef();
+
+    const animationScaleNegative = useRef();
+
+    useEffect(() => {
+        const elasticity = 200;
+        const duration = 3000;
+        const easing = 'easeInOutSine';
+        const autoplay = false;
+
+        animationScale.current = anime.timeline({
+            targets: '.el',
+            rotate: 30,
+            elasticity,
+            autoplay,
+            easing
+        }).add({
+            targets: '#basket-and-handles-left',
+            translateY: -50,
+        }, 0).add({
+            targets: '#basket-and-handles-right',
+            translateY: 50,
+        }, 0);
+
+        animationScaleNegative.current = anime.timeline({
+            targets: '.el',
+            rotate: -30,
+            elasticity,
+            autoplay,
+            easing
+        }).add({
+            targets: '#basket-and-handles-left',
+            translateY: 50,
+        }, 0).add({
+            targets: '#basket-and-handles-right',
+            translateY: -50,
+        }, 0);
+
+    }, [])
+
+    useEffect(() => {
+
+        let width = inputWidth.right - inputWidth.left;
+
+        if (width > 0) {
+            animationScale.current.seek(animationScale.current.duration * (`${width}` / 1000));
+        } else {
+            animationScaleNegative.current.seek(animationScaleNegative.current.duration * (-`${width}` / 1000));
+        }
+        console.debug({width})
+        console.debug({inputWidth})
+    }, [inputWidth]);
+
+    useEffect(() => {
+
+        if (value > 0) {
+            animationScale.current.seek(animationScale.current.duration * (`${value}` / 1000));
+        } else {
+            animationScaleNegative.current.seek(animationScaleNegative.current.duration * (-`${value}` / 1000));
+        }
+        console.debug({value})
+    }, [value])
+
+    return (
+        <>
+            {withOptions &&
+            <Row >
+                <Col>
+                    <SVGScale
+                        topPartId={'el'}
+                        leftBasketId={'basket-and-handles-left'}
+                        rightBasketId={'basket-and-handles-right'}
+                        basketInnerText={inputWidth}/>
+                </Col>
+                <Col>
+                    {withOptions && <div className="">
+                        <div className="line controls">
+                            <input className="progress" step=".001" type="range" min="-1000" max="1000" value={value} onChange={(event) => {
+                                setValue(event.target.value)
+                            }}/>
+                        </div>
+                        <h5>Left: {inputWidth.left} | Right: {inputWidth.right}</h5>
+                    </div>}
+                </Col>
+            </Row>}
+
+            { !withOptions && <SVGScale
+                topPartId={'el'}
+                leftBasketId={'basket-and-handles-left'}
+                rightBasketId={'basket-and-handles-right'}
+                basketInnerText={inputWidth}/>}
+    </>
+    );
+}
+
+export default function Animations() {
+    return (
+        <>
+            <SeekScaleAnimation inputWidth={{left: '500', right: '500'}} withOptions={true}/>
+        </>
+    );
+}
+
+export {SeekScaleAnimation};

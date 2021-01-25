@@ -9,6 +9,10 @@ import DangerDismissibleAlert from '../DangerDismissibleAlert';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import Anime, {anime} from 'react-anime';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import Nav from 'react-bootstrap/Nav';
 
 function ExercisePage({problem}) {
     return (
@@ -46,12 +50,12 @@ const ExerciseCodingArea = ({exercise, animation}) => {
             ...exercise,
             code: value
         };
-        console.log({request});
-        console.log(process.env.FYP_SERVER_DOMAIN);
+        console.debug({request});
+        console.debug(process.env.FYP_SERVER_DOMAIN);
         let endpoint = `${process.env.REACT_APP_FYP_SERVER_DOMAIN}${exercise.endpoint}`;
 
         if (process.env.NODE_ENV === 'development') {
-            console.log(process.env.NODE_ENV);
+            console.debug(process.env.NODE_ENV);
             endpoint = `http://localhost:80${exercise.endpoint}`;
         }
         fetch(endpoint, {
@@ -63,7 +67,7 @@ const ExerciseCodingArea = ({exercise, animation}) => {
         }).then(res => {
             return res.json();
         }).then(requestResult => {
-            console.log(requestResult);
+            console.debug(requestResult);
             setConsoleOutput(requestResult);
             alert.setShow(!requestResult.isSuccess);
         }).finally(() => {
@@ -79,28 +83,17 @@ const ExerciseCodingArea = ({exercise, animation}) => {
                         <Card.Header as={'h5'}>Exercise Coding Area</Card.Header>
                         <ExerciseEditor code={code} setCode={setCode}/>
                     </ShadowedCard>
-                    <div className={'float-right'}>
-                        {isLoading && <Spinner
-                            animation="grow"
-                            size='sm'
-                            role='status'
-                            className={'dark-blue'}
-                        />}{' '}{' '}
-                        <Button
-                            type='button'
-                            className={'btn-dark-blue'}
-                            variant={'primary'}
-                            onClick={() => {
-                                console.log({code});
-                                sendCodeToServer(code);
-                            }}
-                        >Submit Code</Button>
-                    </div>
+
+                    <SubmitCodeButton
+                        isLoading={isLoading}
+                        callback={() => sendCodeToServer(code)}/>
                     <br/>
                     <br/>
                     <ExerciseConsole alert={alert.alert} consoleOutput={consoleOutput}/>
                 </Col>
                 <Col>
+                    <ExerciseOptions />
+                    <br/>
                     <ExerciseSummary summary={summary}/>
                     <br/>
                     <VisualiserArea solution={result} weights={data} animation={animation}/>
@@ -110,6 +103,69 @@ const ExerciseCodingArea = ({exercise, animation}) => {
         </>
     );
 };
+
+const ExerciseOptions = () => {
+
+    const map = new Map();
+    map.set('#iterations', <IterationsOptions/>)
+    map.set('#data', <p>Data</p>)
+
+    const [selected, setSelected] = useState(map.get('#iterations'));
+
+    return (
+        <ShadowedCard>
+            <Card.Header as={'h5'}>Options</Card.Header>
+            <OptionsTabs changeTab={(selectedTab) => setSelected(map.get(selectedTab))}/>
+            <Card.Body>
+                {selected}
+            </Card.Body>
+        </ShadowedCard>
+    );
+}
+
+const OptionsTabs = ({changeTab}) => {
+    return (
+            <Card.Header as={'h5'}>
+                <Nav
+                    onSelect={(selectedKey) => changeTab(selectedKey)}
+                    fill={true}
+                    variant="tabs"
+                    defaultActiveKey={'#iterations'}>
+                    <Nav.Item>
+                        <Nav.Link href="#iterations">Iterations</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href="#data">Data</Nav.Link>
+                    </Nav.Item>
+                </Nav>
+            </Card.Header>
+        );
+}
+
+const IterationsOptions = () => {
+    const [value, setValue] = useState("1000");
+
+    return (
+        <div style={{textAlign: 'center'}}>
+            <h5>Number of Iterations: </h5>
+            <h5>{(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}</h5>
+
+            <IterationsSlider value={value} setValue={setValue}/>
+        </div>
+    );
+}
+
+const IterationsSlider = ({value, setValue}) => {
+
+    return (
+        <div className="line controls">
+            <input className="progress" type="range" min="1" max="1000000" value={value}
+                   onChange={(event) => {
+                       setValue(event.target.value);
+                   }}/>
+        </div>
+    );
+}
 
 const ExerciseConsole = ({consoleOutput, alert}) => (
     <ShadowedCard>
@@ -155,5 +211,25 @@ const VisualiserArea = ({solution, weights, animation}) => {
         </ShadowedCard>
     );
 };
+
+const SubmitCodeButton = ({callback, isLoading}) => {
+    return (
+
+        <div className={'float-right'}>
+            {isLoading && <Spinner
+                animation="grow"
+                size='sm'
+                role='status'
+                className={'dark-blue'}
+            />}{' '}{' '}
+            <Button
+                type='button'
+                className={'btn-dark-blue'}
+                variant={'primary'}
+                onClick={callback}
+            >Submit Code</Button>
+        </div>
+    );
+}
 
 export {ExercisePage, ShadowedCard};
