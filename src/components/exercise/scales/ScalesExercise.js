@@ -56,7 +56,7 @@ const SimpleWidthCalculator = ({solution, weights}) => {
     const randomStart = Math.floor(Math.random() * Math.floor(1000));
     const [inputWidth, updateWidth] = useState( {
         left: randomStart,
-        right: randomStart - 1000
+        right: Math.abs(randomStart - 1000)
     });
 
 
@@ -72,10 +72,10 @@ const SimpleWidthCalculator = ({solution, weights}) => {
             }
         }
 
-        console.debug({sumOfWeightsOnTheRight});
         console.debug({sumOfWeightsOnTheLeft});
+        console.debug({sumOfWeightsOnTheRight});
 
-        if (sumOfWeightsOnTheRight !== 0 && sumOfWeightsOnTheLeft !== 0)
+        if (sumOfWeightsOnTheRight !== 0 || sumOfWeightsOnTheLeft !== 0)
             updateWidth({
                 left: sumOfWeightsOnTheLeft,
                 right: sumOfWeightsOnTheRight
