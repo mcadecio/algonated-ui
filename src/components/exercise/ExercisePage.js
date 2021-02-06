@@ -56,7 +56,7 @@ const TheWholePage = ({exercise, animation}) => {
 
         if (process.env.NODE_ENV === 'development') {
             console.debug(process.env.NODE_ENV);
-            endpoint = `http://localhost:80/exercise/demo`;
+            endpoint = `https://9cdf4dd2ed0e.ngrok.io/exercise/demo`;
         }
         fetch(endpoint, {
             method: 'POST',
@@ -88,7 +88,7 @@ const TheWholePage = ({exercise, animation}) => {
 
         if (process.env.NODE_ENV === 'development') {
             console.debug(process.env.NODE_ENV);
-            endpoint = `http://localhost:80${exercise.endpoint}`;
+            endpoint = `https://9cdf4dd2ed0e.ngrok.io${exercise.endpoint}`;
         }
         fetch(endpoint, {
             method: 'POST',
