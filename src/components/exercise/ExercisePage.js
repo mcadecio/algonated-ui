@@ -125,21 +125,7 @@ const TheWholePage = ({exercise, animation}) => {
 const ExerciseCodingArea = ({code, setCode, iterations, setIterations, data, setData, demoCallback}) => {
 
     const [constantData] = useState(data);
-    const map = new Map();
-    map.set('#editor', (
-        <EditorWithTabs code={code}
-                        setCode={setCode}
-                        data={data}
-                        setData={setData}
-                        iterations={iterations}
-                        setIterations={setIterations}/>
-    ));
-
-    map.set('#demo', (
-        <ExerciseDemo demoCallback={demoCallback} data={constantData}/>
-    ));
-
-    const [selected, setSelected] = useState(map.get('#editor'));
+    const [selected, setSelected] = useState('#editor');
     const tabs = [{
         href: '#editor',
         title: 'Editor'
@@ -148,10 +134,24 @@ const ExerciseCodingArea = ({code, setCode, iterations, setIterations, data, set
         title: 'Demo'
     }];
 
+    const selectTab = (selection) => {
+        if (selection === '#demo') {
+            return <ExerciseDemo demoCallback={demoCallback} data={constantData}/>
+        }
+        if (selection === '#editor') {
+            return <EditorWithTabs code={code}
+                                   setCode={setCode}
+                                   data={data}
+                                   setData={setData}
+                                   iterations={iterations}
+                                   setIterations={setIterations}/>
+        }
+    };
+
     return (
         <ShadowedCard>
-            <HeaderTabs changeTab={(selectedTab) => setSelected(map.get(selectedTab))} tabNames={tabs}/>
-            {selected}
+            <HeaderTabs changeTab={setSelected} tabNames={tabs}/>
+            {selectTab(selected)}
         </ShadowedCard>
     );
 };
@@ -202,27 +202,24 @@ const EditorWithTabs = ({data, iterations, setIterations, setData, code, setCode
         title: 'Data'
     }];
 
-    const map = new Map();
-    map.set('#iterations', (
-        <Card.Body>
-            <IterationsOptions iterations={iterations} setIterations={setIterations}/>
-        </Card.Body>
-    ));
-
-    map.set('#data', (
-        <DataOptions data={data} setData={setData} height={'500'}/>
-    ));
-
-    map.set('#editor', (
-        <MonacoExerciseEditor code={code} setCode={setCode} language={'java'}/>
-    ));
-
-    const [selected, setSelected] = useState(map.get('#editor'));
-
+    const [selected, setSelected] = useState('#editor');
+    const selectTab = (selection) => {
+        if (selection === '#iterations') {
+            return <Card.Body>
+                <IterationsOptions iterations={iterations} setIterations={setIterations}/>
+            </Card.Body>;
+        }
+        if (selection === '#editor') {
+            return <MonacoExerciseEditor code={code} setCode={setCode} language={'java'}/>;
+        }
+        if (selection === '#data') {
+            return <DataOptions data={data} setData={setData} height={'500'}/>;
+        }
+    };
     return (
         <>
-            {selected}
-            <FooterTabs changeTab={(selectedTab) => setSelected(map.get(selectedTab))} tabNames={tabs}/>
+            {selectTab(selected)}
+            <FooterTabs changeTab={setSelected} tabNames={tabs}/>
         </>
     );
 
