@@ -52,7 +52,7 @@ const TheWholePage = ({exercise, animation}) => {
             ...extraFields
         };
         console.debug({request});
-        fetchRequest('/exercise/demo', request);
+        fetchRequest(`/exercise/demo/${exercise.problem}`, request);
     };
 
     const sendCodeToServer = (value) => {

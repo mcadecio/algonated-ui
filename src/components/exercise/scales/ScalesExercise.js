@@ -69,7 +69,7 @@ const FunctionDescription = () => (
         </Card.Text>
 
         <JavaCode code={
-            `    public String runScales(List<Double> weights, int iterations) {}`
+            `    public List<Integer> runScales(List<Double> weights, int iterations) {}`
         }/>
 
         <ul>
@@ -88,7 +88,7 @@ const ReturnDescription = () => (
         </Card.Text>
 
         <ul>
-            <li><b>String</b>: The return value should the final solution produced by the algorithm</li>
+            <li><b>List&lt;Integer&gt;</b>: The return value should the final solution produced by the algorithm</li>
         </ul>
     </>
 );
