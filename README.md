@@ -1,72 +1,94 @@
-# Getting Started with Create React App
+# algonated-ui
 
-https://algonated.herokuapp.com/
+![Logo](./img/logo.svg)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The algonated-iu is part of a larger project Algonated. This project is the user interface of the Algonated project and
+the animations for the Scales and Travelling Salesman Problem.
 
-## Available Scripts
+Algonated is short for Algorithms Animated. This was my final year project in the Brunel University Computer Science
+Degree. Algonated is meant to be a platform that can be used by anyone to write algorithms in Java to solve well-known
+heuristic search problems like
+[The Scales Problem](https://www.mathmammoth.com/preview/balance_problems.pdf)
+and [The Travelling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem). This project has space
+for expansion and more exercises will be added in due to time.
 
-In the project directory, you can run:
+## High-level diagram
 
-### `npm start`
+![High Level Diagram](./img/ui-hld.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+If you want to run locally.
 
-### `npm test`
+```shell
+yarn start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Exercises
 
-### `npm run build`
+At the moment there are only two exercises
+available, [the Scales Problem](https://algonated.herokuapp.com/exercises/scales)
+and [the Travelling Salesman Problem](https://algonated.herokuapp.com/exercises/tsp).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Each exercise is usually comprised of:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **Exercise Description** - the aim of the problem and additional instructions
+* **Code Editor and Summary** - An IDE that can be used to write code and a statistical summary of the performance of
+  the code
+* **Animation** - This is a custom animation that represents the behaviour of the algorithm
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Scales Problem
 
-### `npm run eject`
+#### Animation
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The scales problem contains two animations that can found under `src/components/exercise/scales/ScaleAnimations.js`.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##### Bar animation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This was the original animation.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![Bar Animation](https://media.giphy.com/media/3NQP6r9VWarx22Eos4/giphy.gif)
 
-## Learn More
+#### Balance animation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This is the new and default animation.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Balance animation](https://media.giphy.com/media/6ciOTOF6cGCggixXcR/giphy.gif)
 
-### Code Splitting
+### TSP animation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+There is only one tsp animation. The circles are supposed to resemble nodes and the strokes edges.
 
-### Analyzing the Bundle Size
+![TSP animation](https://media.giphy.com/media/vOcIwkWILXKTH6ZDcX/giphy.gif)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Contributing
 
-### Making a Progressive Web App
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Please make sure to update tests as appropriate.
 
-### Advanced Configuration
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```text
+MIT License
 
-### Deployment
+Copyright (c) 2021 Dercio Daio
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-### `npm run build` fails to minify
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
