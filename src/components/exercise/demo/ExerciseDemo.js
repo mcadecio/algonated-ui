@@ -5,31 +5,9 @@ import Nav from "react-bootstrap/Nav";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import { DataOptions, IterationsOptions } from "../ExercisePage";
-
-const ExerciseDemo = ({ demoCallback, data }) => {
-  const algorithms = [
-    RandomHillClimbing,
-    RandomRestartHillClimbing,
-    StochasticHillClimbing,
-    SimulatedAnnealing,
-  ];
-
-  return (
-    <Accordion>
-      {algorithms.map((Algorithm, i) => {
-        return (
-          <Algorithm
-            initialData={data}
-            key={i}
-            eventKey={i.toString(10)}
-            callback={demoCallback}
-          />
-        );
-      })}
-    </Accordion>
-  );
-};
+import PropTypes from "prop-types";
+import { IterationsOptions } from "../../../atoms/IterationsSlider";
+import { DataOptions } from "../ExerciseEditor";
 
 const RandomHillClimbing = ({ eventKey, callback, initialData }) => {
   const [iterations, setIterations] = useState(100);
@@ -70,6 +48,11 @@ const RandomHillClimbing = ({ eventKey, callback, initialData }) => {
       </Accordion.Collapse>
     </Card>
   );
+};
+RandomHillClimbing.propTypes = {
+  eventKey: PropTypes.number.isRequired,
+  callback: PropTypes.string.isRequired,
+  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 const RandomRestartHillClimbing = ({ eventKey, callback, initialData }) => {
@@ -123,6 +106,11 @@ const RandomRestartHillClimbing = ({ eventKey, callback, initialData }) => {
     </Card>
   );
 };
+RandomRestartHillClimbing.propTypes = {
+  eventKey: PropTypes.number.isRequired,
+  callback: PropTypes.string.isRequired,
+  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
+};
 
 const StochasticHillClimbing = ({ eventKey, callback, initialData }) => {
   const [iterations, setIterations] = useState(100);
@@ -171,6 +159,11 @@ const StochasticHillClimbing = ({ eventKey, callback, initialData }) => {
       </Accordion.Collapse>
     </Card>
   );
+};
+StochasticHillClimbing.propTypes = {
+  eventKey: PropTypes.number.isRequired,
+  callback: PropTypes.string.isRequired,
+  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 const SimulatedAnnealing = ({ eventKey, callback, initialData }) => {
@@ -229,6 +222,11 @@ const SimulatedAnnealing = ({ eventKey, callback, initialData }) => {
     </Card>
   );
 };
+SimulatedAnnealing.propTypes = {
+  eventKey: PropTypes.number.isRequired,
+  callback: PropTypes.string.isRequired,
+  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
+};
 
 const Data = ({ data, setData }) => {
   return (
@@ -241,6 +239,10 @@ const Data = ({ data, setData }) => {
       </div>
     </div>
   );
+};
+Data.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  setData: PropTypes.func.isRequired,
 };
 
 const Slider = ({ min, max, value, setValue, step = ".00001" }) => {
@@ -278,6 +280,10 @@ const TemperatureOption = ({ temperature, setTemperature }) => {
     </div>
   );
 };
+TemperatureOption.propTypes = {
+  temperature: PropTypes.number.isRequired,
+  setTemperature: PropTypes.func.isRequired,
+};
 
 const CustomOption = ({ title, value, min, max, updateFunction, step }) => {
   return (
@@ -308,6 +314,10 @@ const CoolingRateOption = ({ coolingRate, setCoolingRate }) => {
     </div>
   );
 };
+CoolingRateOption.propTypes = {
+  coolingRate: PropTypes.number.isRequired,
+  setCoolingRate: PropTypes.func.isRequired,
+};
 
 const AlgorithmHeader = ({ eventKey, name }) => {
   return (
@@ -321,6 +331,37 @@ const AlgorithmHeader = ({ eventKey, name }) => {
       </Accordion.Toggle>
     </Card.Header>
   );
+};
+AlgorithmHeader.propTypes = {
+  eventKey: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+};
+
+const ExerciseDemo = ({ demoCallback, data }) => {
+  const algorithms = [
+    RandomHillClimbing,
+    RandomRestartHillClimbing,
+    StochasticHillClimbing,
+    SimulatedAnnealing,
+  ];
+
+  return (
+    <Accordion>
+      {algorithms.map((Algorithm, i) => {
+        return (
+          <Algorithm
+            initialData={data}
+            eventKey={i.toString(10)}
+            callback={demoCallback}
+          />
+        );
+      })}
+    </Accordion>
+  );
+};
+ExerciseDemo.propTypes = {
+  demoCallback: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default ExerciseDemo;

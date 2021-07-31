@@ -1,28 +1,10 @@
 import React from "react";
-import Highlight from "react-highlight.js";
 import Card from "react-bootstrap/Card";
 import config from "./tsp.exercise.json";
 import { distances } from "./tsp.data.48.json";
-import { ExercisePage } from "../ExercisePage";
-import { FixedNetworkAnimation } from "./TSPAnimations";
-
-const TSPExercise = () => {
-  const exerciseConfig = {
-    ...config,
-  };
-
-  exerciseConfig.exercise.data = distances;
-
-  return (
-    <ExercisePage
-      problem={{
-        animation: FixedNetworkAnimation,
-        ...exerciseConfig,
-        customDescription: TSPDescription,
-      }}
-    />
-  );
-};
+import ExercisePage from "../ExercisePage";
+import { FixedNetworkAnimation } from "./animations/TSPAnimations";
+import { JavaCode, JsonCode } from "../../../atoms/CodeFormators";
 
 const TSPDescription = () => (
   <div>
@@ -41,10 +23,6 @@ const TSPDescription = () => (
     <AdditionalDescription />
   </div>
 );
-
-const JavaCode = ({ code }) => <Highlight language="java">{code}</Highlight>;
-
-const JsonCode = ({ json }) => <Highlight language="json">{json}</Highlight>;
 
 const ProblemBrief = () => (
   <>
@@ -177,4 +155,20 @@ const Instructions = () => (
   </div>
 );
 
-export { TSPExercise };
+export default function TSPExercise() {
+  const exerciseConfig = {
+    ...config,
+  };
+
+  exerciseConfig.exercise.data = distances;
+
+  return (
+    <ExercisePage
+      problem={{
+        animation: FixedNetworkAnimation,
+        ...exerciseConfig,
+        customDescription: TSPDescription,
+      }}
+    />
+  );
+}

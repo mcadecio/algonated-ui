@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import { ShadowedCard } from "./ExercisePage";
+import PropTypes from "prop-types";
+import ShadowedCard from "../../atoms/ShadowedCard";
 
 export default function ExerciseProblem({ name, description: Description }) {
   return (
@@ -12,3 +13,7 @@ export default function ExerciseProblem({ name, description: Description }) {
     </ShadowedCard>
   );
 }
+ExerciseProblem.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.element.isRequired,
+};

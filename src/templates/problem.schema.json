@@ -1,6 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "http://fyp.ddaio.com/json-schema/problem",
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fyp.ddaio.com/json-schema/problem",
   "title": "The Problem Json",
   "description": "The json used to describe a problem",
   "type": "object",

@@ -1,21 +1,9 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import Highlight from "react-highlight.js";
 import config from "./scales.exercise.json";
-import { ExercisePage } from "../ExercisePage";
+import ExercisePage from "../ExercisePage";
 import { BalanceAnimation } from "./ScaleAnimations";
-
-export const ScalesExercise = () => {
-  return (
-    <ExercisePage
-      problem={{
-        animation: BalanceAnimation,
-        ...config,
-        customDescription: ScalesDescription,
-      }}
-    />
-  );
-};
+import { JavaCode, JsonCode } from "../../../atoms/CodeFormators";
 
 const ScalesDescription = () => (
   <div>
@@ -35,15 +23,13 @@ const ScalesDescription = () => (
   </div>
 );
 
-const JavaCode = ({ code }) => <Highlight language="java">{code}</Highlight>;
-
 const ProblemBrief = () => (
   <Card.Text>
     <b>Problem Description</b>
     <br />
-    This is a pan balance or scales. Things go into the two "pans", and the
-    heavier pan will go down, like in a seesaw. If the two things weigh the
-    same, the balance stays balanced. Solve the problem!
+    This is a pan balance or scales. Things go into the two &quot;pans&quot;,
+    and the heavier pan will go down, like in a seesaw. If the two things weigh
+    the same, the balance stays balanced. Solve the problem!
   </Card.Text>
 );
 
@@ -153,4 +139,16 @@ const Instructions = () => (
   </div>
 );
 
-const JsonCode = ({ json }) => <Highlight language="json">{json}</Highlight>;
+const ScalesExercise = () => {
+  return (
+    <ExercisePage
+      problem={{
+        animation: BalanceAnimation,
+        ...config,
+        customDescription: ScalesDescription,
+      }}
+    />
+  );
+};
+
+export default ScalesExercise;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -8,10 +8,12 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Nav from "react-bootstrap/Nav";
 import DangerDismissibleAlert from "../DangerDismissibleAlert";
-import { MonacoDataEditor, MonacoExerciseEditor } from "./ExerciseEditor";
+import { DataOptions, MonacoExerciseEditor } from "./ExerciseEditor";
 import ExerciseProblem from "./ExerciseProblem";
 import "../anime.css";
 import ExerciseDemo from "./demo/ExerciseDemo";
+import ShadowedCard from "../../atoms/ShadowedCard";
+import { IterationsOptions } from "../../atoms/IterationsSlider";
 
 function ExercisePage({ problem }) {
   return (
@@ -187,23 +189,6 @@ const ExerciseCodingArea = ({
   );
 };
 
-const DataOptions = ({ data, setData, height }) => {
-  const [innerData, setInnerData] = useState(data);
-
-  useEffect(() => {
-    setData(innerData);
-  }, [innerData, setData]);
-
-  return (
-    <MonacoDataEditor
-      data={innerData}
-      setData={setInnerData}
-      language="json"
-      height={height}
-    />
-  );
-};
-
 const HeaderTabs = ({ changeTab, tabNames }) => {
   return (
     <Card.Header as="h5">
@@ -291,43 +276,6 @@ const TabNavigation = ({ changeTab, tabNames }) => {
   );
 };
 
-const IterationsOptions = ({ iterations, setIterations }) => {
-  const [innerValue, setInnerValue] = useState(iterations);
-
-  useEffect(() => {
-    setIterations(innerValue);
-  }, [innerValue, setIterations]);
-
-  return (
-    <div style={{ textAlign: "center" }}>
-      <h5>Number of Iterations: </h5>
-      <h5>{innerValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</h5>
-      <IterationsSlider
-        value={innerValue.toString()}
-        setValue={setInnerValue}
-      />
-    </div>
-  );
-};
-
-const IterationsSlider = ({ value, setValue }) => {
-  return (
-    <div className="line controls">
-      <input
-        className="progress"
-        type="range"
-        min="1"
-        max="20000"
-        value={value}
-        style={{ width: "50%" }}
-        onChange={(event) => {
-          setValue(event.target.value);
-        }}
-      />
-    </div>
-  );
-};
-
 const InformationArea = ({ consoleOutput, alert, summary }) => {
   const selectedComponent = () => {
     switch (selected) {
@@ -387,14 +335,6 @@ const SummaryTab = ({ summary }) => (
   </ListGroup>
 );
 
-const ShadowedCard = ({ children }) => {
-  return (
-    <Card className="shadow-sm" style={{ marginBottom: "1%" }}>
-      {children}
-    </Card>
-  );
-};
-
 const AnimationTab = ({ solution, weights, animation, solutions }) => {
   return (
     <ShadowedCard>
@@ -433,4 +373,4 @@ const SubmitCodeButton = ({ callback, isLoading }) => {
   );
 };
 
-export { ExercisePage, ShadowedCard, IterationsOptions, DataOptions };
+export default ExercisePage;

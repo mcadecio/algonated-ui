@@ -98,19 +98,19 @@ const createSpiralNodes = (nNodes, degree, startingIndex = 0) => {
   return nodes;
 };
 
-const createMixedSpiralNodes = (nNodes) => {
-  const normal = createNormalSpiralNodes(nNodes / 2, 0);
-  const reversed = createReversedSpiralNodes(nNodes, Math.ceil(nNodes / 2));
-
-  return [...normal, ...reversed];
-};
-
 const createNormalSpiralNodes = (nNodes, startingIndex = 0) => {
   return createSpiralNodes(nNodes, 4, startingIndex);
 };
 
 const createReversedSpiralNodes = (nNodes, startingIndex = 0) => {
   return createSpiralNodes(nNodes, -4, startingIndex);
+};
+
+const createMixedSpiralNodes = (nNodes) => {
+  const normal = createNormalSpiralNodes(nNodes / 2, 0);
+  const reversed = createReversedSpiralNodes(nNodes, Math.ceil(nNodes / 2));
+
+  return [...normal, ...reversed];
 };
 
 const createSequentialEdges = (nEdges) => {
