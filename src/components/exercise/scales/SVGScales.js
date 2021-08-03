@@ -1,4 +1,22 @@
 import React from "react";
+import PropTypes from "prop-types";
+
+const scalesStyles = {
+  leftHandle: {
+    transformBox: "fill-box",
+    transformOrigin: "center",
+    transform: "rotate(25deg)",
+  },
+  rightHandle: {
+    transformBox: "fill-box",
+    transformOrigin: "center",
+    transform: "rotate(-25deg)",
+  },
+  boxTransform: {
+    transformBox: "fill-box",
+    transformOrigin: "center",
+  },
+};
 
 const ControlledSVGScale = ({ left, right, topPartRotation, translateY }) => (
   <svg
@@ -14,6 +32,12 @@ const ControlledSVGScale = ({ left, right, topPartRotation, translateY }) => (
     <ControlledScaleRightBasket innerText={right} translateY={translateY} />
   </svg>
 );
+ControlledSVGScale.propTypes = {
+  left: PropTypes.number.isRequired,
+  right: PropTypes.number.isRequired,
+  topPartRotation: PropTypes.number.isRequired,
+  translateY: PropTypes.number.isRequired,
+};
 
 const ControlledScaleBasket = ({
   rightHandleXCoord,
@@ -31,6 +55,13 @@ const ControlledScaleBasket = ({
     />
   </g>
 );
+ControlledScaleBasket.propTypes = {
+  rightHandleXCoord: PropTypes.number.isRequired,
+  leftHandleXCoord: PropTypes.number.isRequired,
+  basketXCoord: PropTypes.number.isRequired,
+  innerText: PropTypes.string.isRequired,
+  translateY: PropTypes.number.isRequired,
+};
 
 const ControlledScaleTopPart = ({ topPartRotation }) => (
   <g
@@ -44,6 +75,9 @@ const ControlledScaleTopPart = ({ topPartRotation }) => (
     <ScaleRightArm />
   </g>
 );
+ControlledScaleTopPart.propTypes = {
+  topPartRotation: PropTypes.number.isRequired,
+};
 
 const ControlledScaleRightBasket = ({ innerText, translateY }) => (
   <ControlledScaleBasket
@@ -54,6 +88,10 @@ const ControlledScaleRightBasket = ({ innerText, translateY }) => (
     translateY={translateY}
   />
 );
+ControlledScaleRightBasket.propTypes = {
+  innerText: PropTypes.string.isRequired,
+  translateY: PropTypes.number.isRequired,
+};
 
 const ControlledScaleLeftBasket = ({ innerText, translateY }) => (
   <ControlledScaleBasket
@@ -64,6 +102,10 @@ const ControlledScaleLeftBasket = ({ innerText, translateY }) => (
     translateY={-translateY}
   />
 );
+ControlledScaleLeftBasket.propTypes = {
+  innerText: PropTypes.string.isRequired,
+  translateY: PropTypes.number.isRequired,
+};
 
 const UncontrolledSVGScale = ({
   topPartId,
@@ -84,10 +126,19 @@ const UncontrolledSVGScale = ({
     <ScaleRightBasket id={rightBasketId} innerText={basketInnerText.right} />
   </svg>
 );
+UncontrolledSVGScale.propTypes = {
+  topPartId: PropTypes.number.isRequired,
+  leftBasketId: PropTypes.number.isRequired,
+  rightBasketId: PropTypes.number.isRequired,
+  basketInnerText: PropTypes.string.isRequired,
+};
 
 const ScaleArm = ({ xCoordinates }) => (
   <rect x={xCoordinates} y="45" width="90" height="10" rx="5" />
 );
+ScaleArm.propTypes = {
+  xCoordinates: PropTypes.string.isRequired,
+};
 
 const ScaleLeftArm = () => <ScaleArm xCoordinates="35" />;
 
@@ -135,6 +186,13 @@ const ScaleBasket = ({
     />
   </g>
 );
+ScaleBasket.propTypes = {
+  id: PropTypes.number.isRequired,
+  rightHandleXCoord: PropTypes.number.isRequired,
+  leftHandleXCoord: PropTypes.number.isRequired,
+  basketXCoord: PropTypes.number.isRequired,
+  innerText: PropTypes.string.isRequired,
+};
 
 const Basket = ({
   rightHandleXCoord,
@@ -155,9 +213,20 @@ const Basket = ({
   </>
 );
 
+Basket.propTypes = {
+  rightHandleXCoord: PropTypes.number.isRequired,
+  leftHandleXCoord: PropTypes.number.isRequired,
+  basketXCoord: PropTypes.number.isRequired,
+  innerText: PropTypes.string.isRequired,
+};
+
 const ScaleBasketHandle = ({ xCoord, style }) => (
   <rect x={xCoord} y="60" width="10" height="60" style={style} rx="5" />
 );
+ScaleBasketHandle.propTypes = {
+  xCoord: PropTypes.number.isRequired,
+  style: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 const ScaleLeftBasket = ({ id, innerText }) => (
   <ScaleBasket
@@ -168,6 +237,10 @@ const ScaleLeftBasket = ({ id, innerText }) => (
     innerText={innerText}
   />
 );
+ScaleLeftBasket.propTypes = {
+  id: PropTypes.number.isRequired,
+  innerText: PropTypes.string.isRequired,
+};
 
 const ScaleRightBasket = ({ id, innerText }) => (
   <ScaleBasket
@@ -178,6 +251,10 @@ const ScaleRightBasket = ({ id, innerText }) => (
     innerText={innerText}
   />
 );
+ScaleRightBasket.propTypes = {
+  id: PropTypes.number.isRequired,
+  innerText: PropTypes.string.isRequired,
+};
 
 const ScaleBasketBase = ({ xCoord, innerText }) => (
   <svg x={xCoord} y="110px">
@@ -187,22 +264,9 @@ const ScaleBasketBase = ({ xCoord, innerText }) => (
     </text>
   </svg>
 );
-
-const scalesStyles = {
-  leftHandle: {
-    transformBox: "fill-box",
-    transformOrigin: "center",
-    transform: "rotate(25deg)",
-  },
-  rightHandle: {
-    transformBox: "fill-box",
-    transformOrigin: "center",
-    transform: "rotate(-25deg)",
-  },
-  boxTransform: {
-    transformBox: "fill-box",
-    transformOrigin: "center",
-  },
+ScaleBasketBase.propTypes = {
+  xCoord: PropTypes.string.isRequired,
+  innerText: PropTypes.string.isRequired,
 };
 
 export { ControlledSVGScale, UncontrolledSVGScale };

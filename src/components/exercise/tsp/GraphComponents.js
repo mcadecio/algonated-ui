@@ -1,6 +1,7 @@
 import React from "react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import PropTypes from "prop-types";
 
 const fillColor = "rgb(97, 205, 187)";
 const outlineColor = "rgb(73,154,141)";
@@ -38,6 +39,24 @@ const Graph = ({ nodes, links }) => {
     </svg>
   );
 };
+Graph.propTypes = {
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      source: PropTypes.number,
+      target: PropTypes.number,
+      distance: PropTypes.number,
+    })
+  ).isRequired,
+  nodes: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      radius: PropTypes.number,
+      depth: PropTypes.number,
+      color: PropTypes.string,
+      x: PropTypes.number,
+    })
+  ).isRequired,
+};
 
 const Edge = ({ sourceNode, targetNode }) => {
   return (
@@ -53,6 +72,24 @@ const Edge = ({ sourceNode, targetNode }) => {
       fill="none"
     />
   );
+};
+Edge.propTypes = {
+  sourceNode: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    radius: PropTypes.number.isRequired,
+    depth: PropTypes.number.isRequired,
+    color: PropTypes.string.isRequired,
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
+  targetNode: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    radius: PropTypes.number.isRequired,
+    depth: PropTypes.number.isRequired,
+    color: PropTypes.string.isRequired,
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 const Node = ({ name, x, y }) => {
@@ -80,10 +117,15 @@ const Node = ({ name, x, y }) => {
     </OverlayTrigger>
   );
 };
+Node.propTypes = {
+  name: PropTypes.string.isRequired,
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+};
 
 const createSpiralNodes = (nNodes, degree, startingIndex = 0) => {
   const nodes = [];
-  for (let i = startingIndex + 5; i < nNodes + 5; i++) {
+  for (let i = startingIndex + 5; i < nNodes + 5; i += 1) {
     const angle = degree * i;
     const x = svgWidth / 2 + (1 + angle) * Math.cos(angle);
     const y = svgHeight / 2 + (1 + angle) * Math.sin(angle);
@@ -115,7 +157,7 @@ const createMixedSpiralNodes = (nNodes) => {
 
 const createSequentialEdges = (nEdges) => {
   const edges = [];
-  for (let i = 0; i < nEdges - 1; i++) {
+  for (let i = 0; i < nEdges - 1; i += 1) {
     edges.push({
       source: i,
       target: i + 1,

@@ -114,8 +114,22 @@ const MyResponsiveNetwork = ({ nodes, links }) => {
   );
 };
 MyResponsiveNetwork.propTypes = {
-  links: propTypes.links.isRequired,
-  nodes: propTypes.nodes.isRequired,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      source: PropTypes.number,
+      target: PropTypes.number,
+      distance: PropTypes.number,
+    })
+  ).isRequired,
+  nodes: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      radius: PropTypes.number,
+      depth: PropTypes.number,
+      color: PropTypes.string,
+      x: PropTypes.number,
+    })
+  ).isRequired,
 };
 
 const SimpleResponsiveNetworkGraph = ({ links, solution }) => {
@@ -123,8 +137,14 @@ const SimpleResponsiveNetworkGraph = ({ links, solution }) => {
   return <Graph links={links} nodes={nodes} />;
 };
 SimpleResponsiveNetworkGraph.propTypes = {
-  links: propTypes.links.isRequired,
-  solution: propTypes.solution.isRequired,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      source: PropTypes.number,
+      target: PropTypes.number,
+      distance: PropTypes.number,
+    })
+  ).isRequired,
+  solution: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export {

@@ -269,6 +269,13 @@ const Slider = ({ min, max, value, setValue, step = ".00001" }) => {
     </div>
   );
 };
+Slider.propTypes = {
+  value: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  setValue: PropTypes.func.isRequired,
+  step: PropTypes.string.isRequired,
+};
 
 const TemperatureOption = ({ temperature, setTemperature }) => {
   return (
@@ -302,6 +309,14 @@ const CustomOption = ({ title, value, min, max, updateFunction, step }) => {
       />
     </div>
   );
+};
+CustomOption.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  updateFunction: PropTypes.func.isRequired,
+  step: PropTypes.string.isRequired,
 };
 
 const CoolingRateOption = ({ coolingRate, setCoolingRate }) => {

@@ -1,10 +1,10 @@
-import { equals } from "../../scales/ScaleAnimations";
 import calculateFitness from "./calculateFitness";
+import { equals } from "../../../../utils/utils";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const createNodes = async (addNode, solution) => {
-  for (let i = 0; i < solution.length; i++) {
+  for (let i = 0; i < solution.length; i += 1) {
     let thisColor = "rgb(97, 205, 187)";
     if (i === solution[0]) {
       thisColor = "rgb(255, 0, 0)";
@@ -17,7 +17,7 @@ const createNodes = async (addNode, solution) => {
 };
 
 const createLinks = async (addLinks, solution, distances, timeout = 200) => {
-  for (let i = 0; i < solution.length - 1; i++) {
+  for (let i = 0; i < solution.length - 1; i += 1) {
     const city = solution[i];
     const nextCity = solution[i + 1];
     const distance = distances[city][nextCity];
@@ -63,7 +63,7 @@ const triggerLinkAnimation = async (
     if (solutions.length !== 0) {
       setFitness(calculateFitness(solutions[0], distances));
       await createLinks(links.addLinks, solutions[0], distances, 100);
-      for (let i = 1; i < solutions.length; i++) {
+      for (let i = 1; i < solutions.length; i += 1) {
         const newLinks = [];
         const addLinks = (city, nextCity, distance) => {
           newLinks.push({

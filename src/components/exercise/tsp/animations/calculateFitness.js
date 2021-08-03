@@ -6,7 +6,7 @@ const calculateFitness = (solution, distances) => {
   }
 
   let sum = 0;
-  for (let i = 0; i < numberOfCities - 1; i++) {
+  for (let i = 0; i < numberOfCities - 1; i += 1) {
     const city = solution[i];
     const nextCity = solution[i + 1];
     sum += distances[city][nextCity];
