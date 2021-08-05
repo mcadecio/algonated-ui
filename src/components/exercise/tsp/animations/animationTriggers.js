@@ -1,6 +1,6 @@
 import calculateFitness from "./calculateFitness";
-import { equals } from "../../../../utils/utils";
-
+import equals from "../../../../utils/utils";
+/* eslint-disable no-await-in-loop */
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const createNodes = async (addNode, solution) => {

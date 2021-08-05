@@ -4,7 +4,7 @@ import Col from "react-bootstrap/Col";
 import PropTypes from "prop-types";
 import { ControlledSVGScale } from "./SVGScales";
 import { SimpleWidthCalculator, WidthCalculator } from "./widthCalculators";
-import { equals } from "../../../utils/utils";
+import equals from "../../../utils/utils";
 
 const maxWidth = 747;
 
@@ -133,6 +133,7 @@ const BalanceAnimation = ({ solution, weights, solutions }) => {
           if (i > 0 && !equals(solutions[i - 1], solutions[i])) {
             setFitness(Math.abs(newWidth.left - newWidth.right));
             updateLeftRight(newWidth.left, newWidth.right);
+            // eslint-disable-next-line no-await-in-loop
             await delay(1);
           }
         }

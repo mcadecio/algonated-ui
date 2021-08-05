@@ -7,6 +7,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Nav from "react-bootstrap/Nav";
+import PropTypes from "prop-types";
 import DangerDismissibleAlert from "../DangerDismissibleAlert";
 import { DataOptions, MonacoExerciseEditor } from "./ExerciseEditor";
 import ExerciseProblem from "./ExerciseProblem";
@@ -27,6 +28,25 @@ function ExercisePage({ problem }) {
     </div>
   );
 }
+ExercisePage.propTypes = {
+  problem: PropTypes.shape({
+    animation: PropTypes.elementType.isRequired,
+    customDescription: PropTypes.elementType,
+    exercise: PropTypes.shape({
+      className: PropTypes.string.isRequired,
+      package: PropTypes.string.isRequired,
+      defaultStarterCode: PropTypes.string.isRequired,
+      importsAllowed: PropTypes.arrayOf(PropTypes.string).isRequired,
+      illegalMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
+      data: PropTypes.arrayOf(PropTypes.any).isRequired,
+      code: PropTypes.string.isRequired,
+      problem: PropTypes.string.isRequired,
+      endpoint: PropTypes.string.isRequired,
+      iterations: PropTypes.number.isRequired,
+    }),
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 const TheWholePage = ({ exercise, animation }) => {
   const alert = DangerDismissibleAlert({
@@ -55,31 +75,6 @@ const TheWholePage = ({ exercise, animation }) => {
     },
   });
 
-  const runDemo = (algorithm, extraFields) => {
-    setLoading(true);
-    const request = {
-      problem: exercise.problem,
-      algorithm,
-      data: JSON.parse(exerciseData).data,
-      ...extraFields,
-    };
-    console.debug({ request });
-    fetchRequest(`/exercise/demo/${exercise.problem}`, request);
-  };
-
-  const sendCodeToServer = (value) => {
-    setLoading(true);
-    const request = {
-      ...exercise,
-      code: value,
-      data: JSON.parse(exerciseData).data,
-      iterations: Number.parseInt(iterations, 10),
-    };
-    console.debug({ request });
-
-    fetchRequest(exercise.endpoint, request);
-  };
-
   const fetchRequest = (endpoint, request) => {
     const url = `${process.env.REACT_APP_FYP_SERVER_DOMAIN}${endpoint}`;
 
@@ -94,13 +89,35 @@ const TheWholePage = ({ exercise, animation }) => {
         return res.json();
       })
       .then((requestResult) => {
-        console.debug(requestResult);
         setConsoleOutput(requestResult);
         alert.setShow(!requestResult.isSuccess);
       })
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  const runDemo = (algorithm, extraFields) => {
+    setLoading(true);
+    const request = {
+      problem: exercise.problem,
+      algorithm,
+      data: JSON.parse(exerciseData).data,
+      ...extraFields,
+    };
+    fetchRequest(`/exercise/demo/${exercise.problem}`, request);
+  };
+
+  const sendCodeToServer = (value) => {
+    setLoading(true);
+    const request = {
+      ...exercise,
+      code: value,
+      data: JSON.parse(exerciseData).data,
+      iterations: Number.parseInt(iterations, 10),
+    };
+
+    fetchRequest(exercise.endpoint, request);
   };
 
   return (
@@ -139,6 +156,21 @@ const TheWholePage = ({ exercise, animation }) => {
       <br />
     </>
   );
+};
+TheWholePage.propTypes = {
+  animation: PropTypes.elementType.isRequired,
+  exercise: PropTypes.shape({
+    className: PropTypes.string.isRequired,
+    package: PropTypes.string.isRequired,
+    defaultStarterCode: PropTypes.string.isRequired,
+    importsAllowed: PropTypes.arrayOf(PropTypes.string).isRequired,
+    illegalMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
+    data: PropTypes.arrayOf(PropTypes.any).isRequired,
+    code: PropTypes.string.isRequired,
+    problem: PropTypes.string.isRequired,
+    endpoint: PropTypes.string.isRequired,
+    iterations: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 const ExerciseCodingArea = ({
@@ -179,6 +211,7 @@ const ExerciseCodingArea = ({
         />
       );
     }
+    return <div />;
   };
 
   return (
@@ -188,6 +221,15 @@ const ExerciseCodingArea = ({
     </ShadowedCard>
   );
 };
+ExerciseCodingArea.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  setData: PropTypes.func.isRequired,
+  iterations: PropTypes.number.isRequired,
+  setIterations: PropTypes.func.isRequired,
+  code: PropTypes.string.isRequired,
+  setCode: PropTypes.func.isRequired,
+  demoCallback: PropTypes.func.isRequired,
+};
 
 const HeaderTabs = ({ changeTab, tabNames }) => {
   return (
@@ -196,6 +238,10 @@ const HeaderTabs = ({ changeTab, tabNames }) => {
     </Card.Header>
   );
 };
+HeaderTabs.propTypes = {
+  changeTab: PropTypes.func.isRequired,
+  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 const FooterTabs = ({ changeTab, tabNames }) => {
   return (
@@ -203,6 +249,10 @@ const FooterTabs = ({ changeTab, tabNames }) => {
       <TabNavigation changeTab={changeTab} tabNames={tabNames} />
     </Card.Footer>
   );
+};
+FooterTabs.propTypes = {
+  changeTab: PropTypes.func.isRequired,
+  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const EditorWithTabs = ({
@@ -248,6 +298,7 @@ const EditorWithTabs = ({
     if (selection === "#data") {
       return <DataOptions data={data} setData={setData} height="500" />;
     }
+    return <div />;
   };
   return (
     <>
@@ -255,6 +306,14 @@ const EditorWithTabs = ({
       <FooterTabs changeTab={setSelected} tabNames={tabs} />
     </>
   );
+};
+EditorWithTabs.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  setData: PropTypes.func.isRequired,
+  iterations: PropTypes.number.isRequired,
+  setIterations: PropTypes.func.isRequired,
+  code: PropTypes.string.isRequired,
+  setCode: PropTypes.func.isRequired,
 };
 
 const TabNavigation = ({ changeTab, tabNames }) => {
@@ -275,8 +334,13 @@ const TabNavigation = ({ changeTab, tabNames }) => {
     </Nav>
   );
 };
+TabNavigation.propTypes = {
+  changeTab: PropTypes.func.isRequired,
+  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 const InformationArea = ({ consoleOutput, alert, summary }) => {
+  const [selected, setSelected] = useState("#console");
   const selectedComponent = () => {
     switch (selected) {
       case "#summary":
@@ -286,8 +350,6 @@ const InformationArea = ({ consoleOutput, alert, summary }) => {
         return <ConsoleTab consoleOutput={consoleOutput} />;
     }
   };
-
-  const [selected, setSelected] = useState("#console");
 
   return (
     <ShadowedCard>
@@ -299,9 +361,22 @@ const InformationArea = ({ consoleOutput, alert, summary }) => {
     </ShadowedCard>
   );
 };
+InformationArea.propTypes = {
+  consoleOutput: PropTypes.string.isRequired,
+  alert: PropTypes.elementType.isRequired,
+  summary: PropTypes.shape({
+    fitness: PropTypes.number.isRequired,
+    timeRun: PropTypes.number.isRequired,
+    iterations: PropTypes.number.isRequired,
+    efficacy: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 const ConsoleTab = ({ consoleOutput }) => {
   return <Card.Text as="pre">{consoleOutput}</Card.Text>;
+};
+ConsoleTab.propTypes = {
+  consoleOutput: PropTypes.string.isRequired,
 };
 
 const ConsoleTabs = ({ changeTab }) => {
@@ -323,6 +398,9 @@ const ConsoleTabs = ({ changeTab }) => {
     </Card.Header>
   );
 };
+ConsoleTabs.propTypes = {
+  changeTab: PropTypes.func.isRequired,
+};
 
 const SummaryTab = ({ summary }) => (
   <ListGroup variant="flush">
@@ -334,6 +412,14 @@ const SummaryTab = ({ summary }) => (
     <ListGroup.Item>Efficacy: {summary.efficacy}</ListGroup.Item>
   </ListGroup>
 );
+SummaryTab.propTypes = {
+  summary: PropTypes.shape({
+    fitness: PropTypes.number.isRequired,
+    timeRun: PropTypes.number.isRequired,
+    iterations: PropTypes.number.isRequired,
+    efficacy: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 const AnimationTab = ({ solution, weights, animation, solutions }) => {
   return (
@@ -348,6 +434,12 @@ const AnimationTab = ({ solution, weights, animation, solutions }) => {
       </Card.Body>
     </ShadowedCard>
   );
+};
+AnimationTab.propTypes = {
+  solution: PropTypes.arrayOf(PropTypes.number).isRequired,
+  solutions: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+  weights: PropTypes.arrayOf(PropTypes.any).isRequired,
+  animation: PropTypes.element.isRequired,
 };
 
 const SubmitCodeButton = ({ callback, isLoading }) => {
@@ -371,6 +463,10 @@ const SubmitCodeButton = ({ callback, isLoading }) => {
       </Button>
     </div>
   );
+};
+SubmitCodeButton.propTypes = {
+  callback: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default ExercisePage;

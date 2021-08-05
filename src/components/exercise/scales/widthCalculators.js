@@ -85,6 +85,7 @@ const WidthCalculator = ({ solution, weights }) => {
         } else {
           decrementWidth(percentage);
         }
+        // eslint-disable-next-line no-await-in-loop
         await delay(50);
       }
     }, 500);
