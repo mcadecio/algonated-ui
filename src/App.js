@@ -11,9 +11,9 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import ReactPlayer from "react-player/file";
 import Spinner from "react-bootstrap/Spinner";
-import ScalesExercise from "./components/exercise/scales/ScalesExercise";
-import TSPExercise from "./components/exercise/tsp/TSPExercise";
-import ExerciseView from "./components/exercise/ExerciseView";
+import ScalesExercise from "./components/scales/ScalesExercise";
+import ExerciseView from "./components/exercise/exerciseView/ExerciseView";
+import TSPExercise from "./components/tsp/TSPExercise";
 
 const NotFound = () => (
   <>
@@ -34,7 +34,7 @@ export default function App() {
   return (
     <Router>
       <MainNavBar />
-      <div style={{ margin: "3%" }}>
+      <div className="app">
         <Switch>
           <Route exact path="/">
             <Redirect to="/exercises" />
@@ -64,11 +64,11 @@ export default function App() {
 }
 
 const MainNavBar = () => (
-  <div style={{ marginBottom: "5%" }}>
+  <div className="nav-bar">
     <Navbar
       variant="dark"
       expand="lg"
-      style={{ backgroundColor: "#00325b" }}
+      className="nav-bar--dark-blue-background"
       fixed="top"
     >
       <Navbar.Brand>Algorithms Animated</Navbar.Brand>

@@ -1,4 +1,4 @@
-const equals = (solution, anotherSolution) => {
+const arrayEquals = (solution, anotherSolution) => {
   let i = solution.length;
   while (i > 0) {
     if (solution[i] !== anotherSolution[i]) return false;
@@ -7,4 +7,4 @@ const equals = (solution, anotherSolution) => {
   return true;
 };
 
-export default equals;
+export default arrayEquals;

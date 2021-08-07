@@ -1,31 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-const scalesStyles = {
-  leftHandle: {
-    transformBox: "fill-box",
-    transformOrigin: "center",
-    transform: "rotate(25deg)",
-  },
-  rightHandle: {
-    transformBox: "fill-box",
-    transformOrigin: "center",
-    transform: "rotate(-25deg)",
-  },
-  boxTransform: {
-    transformBox: "fill-box",
-    transformOrigin: "center",
-  },
-};
+import "./svgScales.css";
 
 const ControlledSVGScale = ({ left, right, topPartRotation, translateY }) => (
-  <svg
-    x="0px"
-    y="0px"
-    viewBox="0 -15 300 250"
-    style={{ enableBackground: "new 0 -15 300 250" }}
-    xmlSpace="preserve"
-  >
+  <svg x="0px" y="0px" viewBox="0 -15 300 250" xmlSpace="preserve">
     <ControlledScaleTopPart topPartRotation={topPartRotation} />
     <ScaleBase />
     <ControlledScaleLeftBasket innerText={left} translateY={translateY} />
@@ -65,8 +43,8 @@ ControlledScaleBasket.propTypes = {
 
 const ControlledScaleTopPart = ({ topPartRotation }) => (
   <g
+    className="scales-svg"
     style={{
-      ...scalesStyles.boxTransform,
       transform: `rotate(${topPartRotation}deg)`,
     }}
   >
@@ -113,13 +91,7 @@ const UncontrolledSVGScale = ({
   rightBasketId,
   basketInnerText,
 }) => (
-  <svg
-    x="0px"
-    y="0px"
-    viewBox="0 -15 300 250"
-    style={{ enableBackground: "new 0 -15 300 250" }}
-    xmlSpace="preserve"
-  >
+  <svg x="0px" y="0px" viewBox="0 -15 300 250" xmlSpace="preserve">
     <ScaleTopPart id={topPartId} />
     <ScaleBase />
     <ScaleLeftBasket id={leftBasketId} innerText={basketInnerText.left} />
@@ -156,7 +128,7 @@ const ScaleCenterMechanism = () => (
 );
 
 const ScaleTopPart = () => (
-  <g id="top-area" style={scalesStyles.boxTransform} className="el">
+  <g id="top-area" className="scales-svg">
     <ScaleLeftArm />
     <ScaleCenterMechanism />
     <ScaleRightArm />
@@ -203,11 +175,11 @@ const Basket = ({
   <>
     <ScaleBasketHandle
       xCoord={leftHandleXCoord}
-      style={scalesStyles.leftHandle}
+      className="scales-svg__handle--left"
     />
     <ScaleBasketHandle
       xCoord={rightHandleXCoord}
-      style={scalesStyles.rightHandle}
+      className="scales-svg__handle--right"
     />
     <ScaleBasketBase xCoord={basketXCoord} innerText={innerText} />
   </>
@@ -220,12 +192,19 @@ Basket.propTypes = {
   innerText: PropTypes.string.isRequired,
 };
 
-const ScaleBasketHandle = ({ xCoord, style }) => (
-  <rect x={xCoord} y="60" width="10" height="60" style={style} rx="5" />
+const ScaleBasketHandle = ({ xCoord, className }) => (
+  <rect
+    className={`scales-svg ${className}`}
+    x={xCoord}
+    y="60"
+    width="10"
+    height="60"
+    rx="5"
+  />
 );
 ScaleBasketHandle.propTypes = {
   xCoord: PropTypes.number.isRequired,
-  style: PropTypes.objectOf(PropTypes.any).isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 const ScaleLeftBasket = ({ id, innerText }) => (

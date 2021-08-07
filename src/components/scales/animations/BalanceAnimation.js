@@ -1,112 +1,8 @@
-import Row from "react-bootstrap/Row";
 import React, { useEffect, useState } from "react";
-import Col from "react-bootstrap/Col";
 import PropTypes from "prop-types";
 import { ControlledSVGScale } from "./SVGScales";
-import { SimpleWidthCalculator, WidthCalculator } from "./widthCalculators";
-import equals from "../../../utils/utils";
-
-const maxWidth = 747;
-
-const BarAnimation = ({ solution, weights }) => {
-  const { leftRectangleWidth, rightRectangleWidth } = WidthCalculator({
-    solution,
-    weights,
-  });
-
-  return (
-    <>
-      <Row style={{ border: "1px solid" }}>
-        <ScaleBar
-          leftRectangleWidth={leftRectangleWidth}
-          rightRectangleWidth={rightRectangleWidth}
-        />
-      </Row>
-      <Row style={{ border: "1px solid" }}>
-        <ScaleLabel
-          leftRectangleWidth={leftRectangleWidth}
-          rightRectangleWidth={rightRectangleWidth}
-        />
-      </Row>
-    </>
-  );
-};
-BarAnimation.propTypes = {
-  solution: PropTypes.arrayOf(PropTypes.number).isRequired,
-  weights: PropTypes.arrayOf(PropTypes.number).isRequired,
-};
-
-const ScaleBar = ({ leftRectangleWidth, rightRectangleWidth }) => {
-  const styles = {
-    blueRectangle: {
-      fill: "rgb(0,0,255)",
-      strokeWidth: 3,
-      stroke: "rgb(0,0,0)",
-    },
-    redRectangle: {
-      fill: "rgb(255,0,0)",
-      strokeWidth: 3,
-      stroke: "rgb(0,0,0)",
-    },
-  };
-
-  return (
-    <Col>
-      <Row>
-        <svg width={leftRectangleWidth} height="50">
-          <rect
-            width={leftRectangleWidth}
-            height="100%"
-            style={styles.blueRectangle}
-          />
-        </svg>
-        <svg width={rightRectangleWidth} height="50">
-          <rect
-            width={rightRectangleWidth}
-            height="100%"
-            style={styles.redRectangle}
-          />
-        </svg>
-      </Row>
-    </Col>
-  );
-};
-ScaleBar.propTypes = {
-  leftRectangleWidth: PropTypes.number.isRequired,
-  rightRectangleWidth: PropTypes.number.isRequired,
-};
-
-const ScaleLabel = ({ leftRectangleWidth, rightRectangleWidth }) => {
-  const styles = {
-    solidBorder: {
-      border: "1px solid",
-    },
-  };
-
-  const leftRectangleWidthWeight = (
-    (leftRectangleWidth / maxWidth) *
-    100
-  ).toFixed(2);
-  const rightRectangleWidthWeight = (
-    (rightRectangleWidth / maxWidth) *
-    100
-  ).toFixed(2);
-
-  return (
-    <>
-      <Col style={styles.solidBorder} as="h6">
-        {leftRectangleWidthWeight}
-      </Col>
-      <Col style={styles.solidBorder} as="h6">
-        {rightRectangleWidthWeight}
-      </Col>
-    </>
-  );
-};
-ScaleLabel.propTypes = {
-  leftRectangleWidth: PropTypes.number.isRequired,
-  rightRectangleWidth: PropTypes.number.isRequired,
-};
+import { SimpleWidthCalculator } from "./widthCalculators";
+import arrayEquals from "../../../utils/arrayEquals";
 
 const BalanceAnimation = ({ solution, weights, solutions }) => {
   const [{ left, right }, setLeftRight] = useState(
@@ -130,7 +26,7 @@ const BalanceAnimation = ({ solution, weights, solutions }) => {
             solution: solutions[i],
             weights,
           });
-          if (i > 0 && !equals(solutions[i - 1], solutions[i])) {
+          if (i > 0 && !arrayEquals(solutions[i - 1], solutions[i])) {
             setFitness(Math.abs(newWidth.left - newWidth.right));
             updateLeftRight(newWidth.left, newWidth.right);
             // eslint-disable-next-line no-await-in-loop
@@ -203,4 +99,4 @@ BalanceScale.propTypes = {
   weights: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
-export { BarAnimation, BalanceAnimation };
+export default BalanceAnimation;

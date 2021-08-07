@@ -1,5 +1,5 @@
 import calculateFitness from "./calculateFitness";
-import equals from "../../../../utils/utils";
+import arrayEquals from "../../../utils/arrayEquals";
 /* eslint-disable no-await-in-loop */
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -72,7 +72,7 @@ const triggerLinkAnimation = async (
             distance,
           });
         };
-        if (!equals(solutions[i - 1], solutions[i])) {
+        if (!arrayEquals(solutions[i - 1], solutions[i])) {
           await createLinks(addLinks, solutions[i], distances, 0.1);
           setFitness(calculateFitness(solutions[i], distances));
           links.replace(newLinks);

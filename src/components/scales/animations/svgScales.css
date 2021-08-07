@@ -1,0 +1,11 @@
+.scales-svg {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+.scales-svg__handle--left {
+    transform: rotate(25deg);
+}
+
+.scales-svg__handle--right {
+    transform: rotate(-25deg);
+}

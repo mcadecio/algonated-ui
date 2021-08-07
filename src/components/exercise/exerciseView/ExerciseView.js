@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Card from "react-bootstrap/Card";
 import CardDeck from "react-bootstrap/CardDeck";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
-import scales from "./scales/scales.exercise.json";
-import tsp from "./tsp/tsp.exercise.json";
-import img from "./scales/scales.gif";
+import scales from "../../scales/scales.exercise.json";
+import tsp from "../../tsp/tsp.exercise.json";
+import img from "../../scales/scales.gif";
+import "./exerciseView.css";
 
 const ExerciseView = () => {
   const exerciseData = [
@@ -43,8 +44,12 @@ const ExerciseView = () => {
 
 const ExerciseCard = ({ imgLocation, title, text, id }) => {
   return (
-    <HoverableCard>
-      <Card.Img variant="top" src={imgLocation} style={{ height: "300px" }} />
+    <Card className="exercise-card">
+      <Card.Img
+        className="exercise-card__image"
+        variant="top"
+        src={imgLocation}
+      />
       <Card.Body>
         <Card.Title as="h5">{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
@@ -61,7 +66,7 @@ const ExerciseCard = ({ imgLocation, title, text, id }) => {
           </Button>
         </Container>
       </Card.Footer>
-    </HoverableCard>
+    </Card>
   );
 };
 ExerciseCard.propTypes = {
@@ -69,45 +74,6 @@ ExerciseCard.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   imgLocation: PropTypes.string.isRequired,
-};
-
-const HoverableCard = ({ children }) => {
-  const [cardStyle, setCardStyle] = useState({});
-  const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    const normalCardStyle = {
-      minWidth: "30rem",
-      maxWidth: "321px",
-      transition: "0.3s",
-      marginBottom: "1%",
-    };
-
-    const hoveredCardStyle = {
-      minWidth: "30rem",
-      maxWidth: "321px",
-      boxShadow: "0 8px 16px 0 rgba(0, 0, 0, 0.2)",
-      transition: "0.3s",
-      marginBottom: "1%",
-    };
-    if (hovered === true) {
-      setCardStyle(hoveredCardStyle);
-    } else setCardStyle(normalCardStyle);
-  }, [hovered]);
-
-  return (
-    <Card
-      onMouseOver={() => setHovered(true)}
-      onMouseOut={() => setHovered(false)}
-      style={{ ...cardStyle }}
-      className=""
-    >
-      {children}
-    </Card>
-  );
-};
-HoverableCard.propTypes = {
-  children: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ExerciseView;

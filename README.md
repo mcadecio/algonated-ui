@@ -41,7 +41,7 @@ Each exercise is usually comprised of:
 
 #### Animation
 
-The scales problem contains two animations that can found under `src/components/exercise/scales/ScaleAnimations.js`.
+The scales problem contains two animations that can found under `src/components/exercise/scales/BalanceAnimation.js`.
 
 ##### Bar animation
 

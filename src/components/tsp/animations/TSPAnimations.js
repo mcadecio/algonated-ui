@@ -3,18 +3,10 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import { createMixedSpiralNodes, Graph } from "../GraphComponents";
-import Nodes, { type as NodesType } from "../../../../atoms/Nodes";
-import Links, { type as LinksType } from "../../../../atoms/Links";
+import Nodes from "../../../atoms/Nodes";
+import Links from "../../../atoms/Links";
 import { triggerAnimation, triggerLinkAnimation } from "./animationTriggers";
 import calculateFitness from "./calculateFitness";
-
-const propTypes = {
-  solution: PropTypes.arrayOf(PropTypes.number),
-  weights: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  links: LinksType.links,
-  solutions: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  nodes: NodesType.nodes,
-};
 
 const ResponsiveNetworkAnimation = ({ solution, weights: distances }) => {
   const nodes = Nodes();
@@ -49,8 +41,8 @@ const ResponsiveNetworkAnimation = ({ solution, weights: distances }) => {
   );
 };
 ResponsiveNetworkAnimation.propTypes = {
-  solution: propTypes.solution.isRequired,
-  weights: propTypes.weights.isRequired,
+  solution: PropTypes.arrayOf(PropTypes.number).isRequired,
+  weights: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
 };
 
 const FixedNetworkAnimation = ({ solution, weights: distances, solutions }) => {
@@ -88,9 +80,9 @@ const FixedNetworkAnimation = ({ solution, weights: distances, solutions }) => {
   );
 };
 FixedNetworkAnimation.propTypes = {
-  solution: propTypes.solution.isRequired,
-  weights: propTypes.weights.isRequired,
-  solutions: propTypes.solutions.isRequired,
+  solution: PropTypes.arrayOf(PropTypes.number).isRequired,
+  weights: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
+  solutions: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)).isRequired,
 };
 
 const MyResponsiveNetwork = ({ nodes, links }) => {

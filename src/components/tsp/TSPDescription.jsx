@@ -1,11 +1,9 @@
-import React from "react";
 import Card from "react-bootstrap/Card";
-import config from "./scales.exercise.json";
-import ExercisePage from "../ExercisePage";
-import { BalanceAnimation } from "./ScaleAnimations";
-import { JavaCode, JsonCode } from "../../../atoms/CodeFormators";
+import React from "react";
+import { JavaCode, JsonCode } from "../../atoms/CodeFormators";
+import config from "./tsp.exercise.json";
 
-const ScalesDescription = () => (
+const TSPDescription = () => (
   <div>
     <ProblemBrief />
     <hr />
@@ -24,20 +22,29 @@ const ScalesDescription = () => (
 );
 
 const ProblemBrief = () => (
-  <Card.Text>
-    <b>Problem Description</b>
-    <br />
-    This is a pan balance or scales. Things go into the two &quot;pans&quot;,
-    and the heavier pan will go down, like in a seesaw. If the two things weigh
-    the same, the balance stays balanced. Solve the problem!
-  </Card.Text>
+  <>
+    <Card.Text>
+      <b>Problem Description</b>
+      <br />
+      The travelling salesman problem (also called the traveling salesperson
+      problem or TSP) asks the following question:
+      <br />
+    </Card.Text>
+    <blockquote>
+      <i>
+        Given a list of cities and the distances between each pair of cities,
+        what is the shortest possible route that visits each city exactly once
+        and returns to the origin city?
+      </i>
+    </blockquote>
+  </>
 );
 
 const ClassDescription = () => (
   <Card.Text>
     <b>Class Description</b>
     <br />
-    The name of your public class should be <b>ScalesProblem</b>
+    The name of your public class should be <b>TSPProblem</b>
   </Card.Text>
 );
 
@@ -51,16 +58,22 @@ const FunctionDescription = () => (
     </Card.Text>
 
     <JavaCode
-      code={`    public List<Integer> runScales(List<Double> weights, int iterations) {}`}
+      code={`    public List<Integer> runTSP(double[][] distances, int iterations) {}`}
     />
 
     <ul>
       <li>
         <i>
-          <b>weights</b>:{" "}
+          <b>distances</b>:{" "}
         </i>
-        The list of weights
-        <pre>eg. [1.0 , 2.0, 3.0, 4.0, 5.0]</pre>
+        A matrix containing the distances between cities
+        <pre>
+          eg.
+          {`
+    [[0.0, 1.0, 2.0], 
+    [1.0. 0.0, 3.0], 
+    [2.0, 3.0, 0.0]]`}
+        </pre>
       </li>
       <li>
         <i>
@@ -100,7 +113,7 @@ const AdditionalDescription = () => (
     </Card.Text>
     <JavaCode
       code={`        for (int i = 0; i < iterations; i++) {
-            solutions.add("01010101");
+            solutions.add([1, 3, 2]);
         }`}
     />
   </>
@@ -139,16 +152,4 @@ const Instructions = () => (
   </div>
 );
 
-const ScalesExercise = () => {
-  return (
-    <ExercisePage
-      problem={{
-        animation: BalanceAnimation,
-        ...config,
-        customDescription: ScalesDescription,
-      }}
-    />
-  );
-};
-
-export default ScalesExercise;
+export default TSPDescription;

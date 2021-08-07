@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 import { IterationsOptions } from "../../../atoms/IterationsSlider";
 import { DataOptions } from "../ExerciseEditor";
+import "./exerciseDemo.css";
 
 const RandomHillClimbing = ({ eventKey, callback, initialData }) => {
   const [iterations, setIterations] = useState(100);
@@ -26,10 +27,7 @@ const RandomHillClimbing = ({ eventKey, callback, initialData }) => {
             setIterations={setIterations}
           />
           <Data data={data} setData={setData} />
-          <div
-            className="float-right"
-            style={{ marginBottom: "2%", marginTop: "2%" }}
-          >
+          <div className="float-right algorithm-card__body__run-button-wrapper">
             <Button
               type="button"
               className="btn-dark-blue"
@@ -82,10 +80,7 @@ const RandomRestartHillClimbing = ({ eventKey, callback, initialData }) => {
             step=""
           />
           <Data data={data} setData={setData} />
-          <div
-            className="float-right"
-            style={{ marginBottom: "2%", marginTop: "2%" }}
-          >
+          <div className="float-right algorithm-card__body__run-button-wrapper">
             <Button
               type="button"
               className="btn-dark-blue"
@@ -136,10 +131,7 @@ const StochasticHillClimbing = ({ eventKey, callback, initialData }) => {
             step=""
           />
           <Data data={data} setData={setData} />
-          <div
-            className="float-right"
-            style={{ marginBottom: "2%", marginTop: "2%" }}
-          >
+          <div className="float-right algorithm-card__body__run-button-wrapper">
             <Button
               type="button"
               className="btn-dark-blue"
@@ -197,10 +189,7 @@ const SimulatedAnnealing = ({ eventKey, callback, initialData }) => {
             </Col>
           </Row>
           <Data data={data} setData={setData} />
-          <div
-            className="float-right"
-            style={{ marginBottom: "2%", marginTop: "2%" }}
-          >
+          <div className="float-right algorithm-card__body__run-button-wrapper">
             <Button
               type="button"
               className="btn-dark-blue"
@@ -232,9 +221,7 @@ const Data = ({ data, setData }) => {
   return (
     <div>
       <h5>Data:</h5>
-      <div
-        style={{ border: "1px solid rgba(0,0,0,.125)", borderRadius: "5px" }}
-      >
+      <div className="data-editor-container">
         <DataOptions data={data} setData={setData} height="300" />
       </div>
     </div>
@@ -255,13 +242,12 @@ const Slider = ({ min, max, value, setValue, step = ".00001" }) => {
   return (
     <div className="line controls">
       <input
-        className="progress"
+        className="progress slider__input--width-medium"
         type="range"
         step={step}
         min={min}
         max={max}
         value={innerValue}
-        style={{ width: "50%" }}
         onChange={(event) => {
           setInnerValue(event.target.value);
         }}
@@ -274,7 +260,10 @@ Slider.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   setValue: PropTypes.func.isRequired,
-  step: PropTypes.string.isRequired,
+  step: PropTypes.string,
+};
+Slider.defaultProps = {
+  step: ".00001",
 };
 
 const TemperatureOption = ({ temperature, setTemperature }) => {

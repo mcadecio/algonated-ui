@@ -1,0 +1,13 @@
+.algorithm-card__body__run-button-wrapper {
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+.data-editor-container {
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 5px;
+}
+
+.slider__input--width-medium {
+    width: 50%;
+}

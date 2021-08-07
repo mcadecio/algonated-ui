@@ -2,13 +2,6 @@ import React, { useEffect, useState } from "react";
 import MonacoEditor from "react-monaco-editor";
 import PropTypes from "prop-types";
 
-const propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any),
-  setData: PropTypes.func,
-  language: PropTypes.string,
-  height: PropTypes.string,
-};
-
 const MonacoDataEditor = ({ data, setData, language, height = "500" }) => {
   return (
     <div>
@@ -22,10 +15,10 @@ const MonacoDataEditor = ({ data, setData, language, height = "500" }) => {
   );
 };
 MonacoDataEditor.propTypes = {
-  data: propTypes.data.isRequired,
-  setData: propTypes.setData.isRequired,
-  language: propTypes.language.isRequired,
-  height: propTypes.height.isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  setData: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
 };
 
 const DataOptions = ({ data, setData, height }) => {
@@ -45,9 +38,9 @@ const DataOptions = ({ data, setData, height }) => {
   );
 };
 DataOptions.propTypes = {
-  data: propTypes.data.isRequired,
-  setData: propTypes.setData.isRequired,
-  height: propTypes.height.isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  setData: PropTypes.func.isRequired,
+  height: PropTypes.string.isRequired,
 };
 
 const monacoEditorConfig = () => {
@@ -62,23 +55,6 @@ const monacoEditorConfig = () => {
     autoIndent: "full",
     automaticLayout: true,
   };
-};
-const MyMonacoEditor = () => {
-  const [editorValue, setValue] = useState("{}");
-
-  return (
-    <div style={{ border: "solid 1px", width: "803px", height: "300px" }}>
-      <MonacoEditor
-        width="800"
-        height="300"
-        theme="vs-dark"
-        value={editorValue}
-        language="json"
-        options={monacoEditorConfig()}
-        onChange={(value) => setValue(value)}
-      />
-    </div>
-  );
 };
 
 const MonacoExerciseEditor = ({ code, setCode, language, height = "500" }) => {
@@ -97,10 +73,13 @@ const MonacoExerciseEditor = ({ code, setCode, language, height = "500" }) => {
   );
 };
 MonacoExerciseEditor.propTypes = {
-  code: PropTypes.string.isRequired,
-  setCode: propTypes.setData.isRequired,
-  language: propTypes.language.isRequired,
-  height: propTypes.height.isRequired,
+  code: PropTypes.arrayOf(PropTypes.any).isRequired,
+  setCode: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired,
+  height: PropTypes.string,
+};
+MonacoExerciseEditor.defaultProps = {
+  height: "500",
 };
 
-export { MyMonacoEditor, MonacoExerciseEditor, MonacoDataEditor, DataOptions };
+export { MonacoExerciseEditor, MonacoDataEditor, DataOptions };
