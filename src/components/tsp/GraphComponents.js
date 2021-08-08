@@ -34,7 +34,7 @@ const Graph = ({ nodes, links }) => {
         );
       })}
       {nodes.map((node) => (
-        <Node name={node.id} key={node.id} x={node.x} y={node.y} />
+        <Node name={`${node.id}`} key={node.id} x={node.x} y={node.y} />
       ))}
     </svg>
   );
@@ -49,7 +49,7 @@ Graph.propTypes = {
   ).isRequired,
   nodes: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       radius: PropTypes.number,
       depth: PropTypes.number,
       color: PropTypes.string,
@@ -75,18 +75,12 @@ const Edge = ({ sourceNode, targetNode }) => {
 };
 Edge.propTypes = {
   sourceNode: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    radius: PropTypes.number.isRequired,
-    depth: PropTypes.number.isRequired,
-    color: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,
   targetNode: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    radius: PropTypes.number.isRequired,
-    depth: PropTypes.number.isRequired,
-    color: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,

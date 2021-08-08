@@ -71,7 +71,7 @@ const ExerciseCard = ({ imgLocation, title, text, id }) => {
   );
 };
 ExerciseCard.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   imgLocation: PropTypes.string.isRequired,

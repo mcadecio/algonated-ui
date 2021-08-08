@@ -34,10 +34,10 @@ const ControlledScaleBasket = ({
   </g>
 );
 ControlledScaleBasket.propTypes = {
-  rightHandleXCoord: PropTypes.number.isRequired,
-  leftHandleXCoord: PropTypes.number.isRequired,
-  basketXCoord: PropTypes.number.isRequired,
-  innerText: PropTypes.string.isRequired,
+  rightHandleXCoord: PropTypes.string.isRequired,
+  leftHandleXCoord: PropTypes.string.isRequired,
+  basketXCoord: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
   translateY: PropTypes.number.isRequired,
 };
 
@@ -67,7 +67,7 @@ const ControlledScaleRightBasket = ({ innerText, translateY }) => (
   />
 );
 ControlledScaleRightBasket.propTypes = {
-  innerText: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
   translateY: PropTypes.number.isRequired,
 };
 
@@ -81,7 +81,7 @@ const ControlledScaleLeftBasket = ({ innerText, translateY }) => (
   />
 );
 ControlledScaleLeftBasket.propTypes = {
-  innerText: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
   translateY: PropTypes.number.isRequired,
 };
 
@@ -102,7 +102,7 @@ UncontrolledSVGScale.propTypes = {
   topPartId: PropTypes.number.isRequired,
   leftBasketId: PropTypes.number.isRequired,
   rightBasketId: PropTypes.number.isRequired,
-  basketInnerText: PropTypes.string.isRequired,
+  basketInnerText: PropTypes.number.isRequired,
 };
 
 const ScaleArm = ({ xCoordinates }) => (
@@ -160,10 +160,10 @@ const ScaleBasket = ({
 );
 ScaleBasket.propTypes = {
   id: PropTypes.number.isRequired,
-  rightHandleXCoord: PropTypes.number.isRequired,
-  leftHandleXCoord: PropTypes.number.isRequired,
-  basketXCoord: PropTypes.number.isRequired,
-  innerText: PropTypes.string.isRequired,
+  rightHandleXCoord: PropTypes.string.isRequired,
+  leftHandleXCoord: PropTypes.string.isRequired,
+  basketXCoord: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
 };
 
 const Basket = ({
@@ -186,16 +186,16 @@ const Basket = ({
 );
 
 Basket.propTypes = {
-  rightHandleXCoord: PropTypes.number.isRequired,
-  leftHandleXCoord: PropTypes.number.isRequired,
-  basketXCoord: PropTypes.number.isRequired,
-  innerText: PropTypes.string.isRequired,
+  rightHandleXCoord: PropTypes.string.isRequired,
+  leftHandleXCoord: PropTypes.string.isRequired,
+  basketXCoord: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
 };
 
 const ScaleBasketHandle = ({ xCoord, className }) => (
   <rect
     className={`scales-svg ${className}`}
-    x={xCoord}
+    x={`${xCoord}`}
     y="60"
     width="10"
     height="60"
@@ -203,7 +203,7 @@ const ScaleBasketHandle = ({ xCoord, className }) => (
   />
 );
 ScaleBasketHandle.propTypes = {
-  xCoord: PropTypes.number.isRequired,
+  xCoord: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
 };
 
@@ -218,7 +218,7 @@ const ScaleLeftBasket = ({ id, innerText }) => (
 );
 ScaleLeftBasket.propTypes = {
   id: PropTypes.number.isRequired,
-  innerText: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
 };
 
 const ScaleRightBasket = ({ id, innerText }) => (
@@ -232,7 +232,7 @@ const ScaleRightBasket = ({ id, innerText }) => (
 );
 ScaleRightBasket.propTypes = {
   id: PropTypes.number.isRequired,
-  innerText: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
 };
 
 const ScaleBasketBase = ({ xCoord, innerText }) => (
@@ -245,7 +245,7 @@ const ScaleBasketBase = ({ xCoord, innerText }) => (
 );
 ScaleBasketBase.propTypes = {
   xCoord: PropTypes.string.isRequired,
-  innerText: PropTypes.string.isRequired,
+  innerText: PropTypes.number.isRequired,
 };
 
 export { ControlledSVGScale, UncontrolledSVGScale };

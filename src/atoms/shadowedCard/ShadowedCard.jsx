@@ -7,7 +7,7 @@ const ShadowedCard = ({ children }) => {
   return <Card className="shadow-sm shadowed-card">{children}</Card>;
 };
 ShadowedCard.propTypes = {
-  children: PropTypes.objectOf(PropTypes.any),
+  children: PropTypes.arrayOf(PropTypes.element),
 };
 ShadowedCard.defaultProps = {
   children: <div />,

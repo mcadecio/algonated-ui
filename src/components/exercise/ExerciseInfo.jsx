@@ -29,7 +29,7 @@ const ExerciseInfo = ({ consoleOutput, alert, summary }) => {
 };
 ExerciseInfo.propTypes = {
   consoleOutput: PropTypes.string.isRequired,
-  alert: PropTypes.elementType.isRequired,
+  alert: PropTypes.element.isRequired,
   summary: PropTypes.shape({
     fitness: PropTypes.number.isRequired,
     timeRun: PropTypes.number.isRequired,

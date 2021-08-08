@@ -15,7 +15,7 @@ const MonacoDataEditor = ({ data, setData, language, height = "500" }) => {
   );
 };
 MonacoDataEditor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.string.isRequired,
   setData: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
@@ -38,7 +38,7 @@ const DataOptions = ({ data, setData, height }) => {
   );
 };
 DataOptions.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.string.isRequired,
   setData: PropTypes.func.isRequired,
   height: PropTypes.string.isRequired,
 };
@@ -73,7 +73,7 @@ const MonacoExerciseEditor = ({ code, setCode, language, height = "500" }) => {
   );
 };
 MonacoExerciseEditor.propTypes = {
-  code: PropTypes.arrayOf(PropTypes.any).isRequired,
+  code: PropTypes.string.isRequired,
   setCode: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   height: PropTypes.string,

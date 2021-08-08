@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 const IterationsSlider = ({ value, setValue }) => {
@@ -24,25 +24,16 @@ IterationsSlider.propTypes = {
 };
 
 const IterationsOptions = ({ iterations, setIterations }) => {
-  const [innerValue, setInnerValue] = useState(iterations);
-
-  useEffect(() => {
-    setIterations(innerValue);
-  }, [innerValue, setIterations]);
-
   return (
     <div style={{ textAlign: "center" }}>
       <h5>Number of Iterations: </h5>
-      <h5>{innerValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</h5>
-      <IterationsSlider
-        value={innerValue.toString()}
-        setValue={setInnerValue}
-      />
+      <h5>{iterations.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}</h5>
+      <IterationsSlider value={iterations} setValue={setIterations} />
     </div>
   );
 };
 IterationsOptions.propTypes = {
-  iterations: PropTypes.number.isRequired,
+  iterations: PropTypes.string.isRequired,
   setIterations: PropTypes.func.isRequired,
 };
 

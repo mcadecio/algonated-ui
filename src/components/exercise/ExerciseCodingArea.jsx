@@ -56,9 +56,9 @@ const ExerciseCodingArea = ({
   );
 };
 ExerciseCodingArea.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.string.isRequired,
   setData: PropTypes.func.isRequired,
-  iterations: PropTypes.number.isRequired,
+  iterations: PropTypes.string.isRequired,
   setIterations: PropTypes.func.isRequired,
   code: PropTypes.string.isRequired,
   setCode: PropTypes.func.isRequired,
@@ -118,9 +118,9 @@ const EditorWithTabs = ({
   );
 };
 EditorWithTabs.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.string.isRequired,
   setData: PropTypes.func.isRequired,
-  iterations: PropTypes.number.isRequired,
+  iterations: PropTypes.string.isRequired,
   setIterations: PropTypes.func.isRequired,
   code: PropTypes.string.isRequired,
   setCode: PropTypes.func.isRequired,
@@ -135,7 +135,12 @@ const HeaderTabs = ({ changeTab, tabNames }) => {
 };
 HeaderTabs.propTypes = {
   changeTab: PropTypes.func.isRequired,
-  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tabNames: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
 };
 
 const FooterTabs = ({ changeTab, tabNames }) => {
@@ -147,7 +152,12 @@ const FooterTabs = ({ changeTab, tabNames }) => {
 };
 FooterTabs.propTypes = {
   changeTab: PropTypes.func.isRequired,
-  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tabNames: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
 };
 
 const TabNavigation = ({ changeTab, tabNames }) => {
@@ -170,7 +180,11 @@ const TabNavigation = ({ changeTab, tabNames }) => {
 };
 TabNavigation.propTypes = {
   changeTab: PropTypes.func.isRequired,
-  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tabNames: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
 };
-
 export default ExerciseCodingArea;

@@ -41,7 +41,7 @@ const getStateAndFunctions = () => {
     const request = {
       problem: exercise.problem,
       algorithm,
-      data: exercise.data,
+      data: JSON.parse(exerciseData).data,
       ...extraFields,
     };
 
@@ -57,7 +57,7 @@ const getStateAndFunctions = () => {
     const request = {
       ...exercise,
       code,
-      data,
+      data: JSON.parse(exerciseData).data,
       iterations: Number.parseInt(iterations, 10),
     };
 

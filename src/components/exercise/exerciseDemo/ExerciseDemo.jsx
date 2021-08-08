@@ -11,7 +11,7 @@ import { DataOptions } from "../ExerciseEditor";
 import "./exerciseDemo.css";
 
 const RandomHillClimbing = ({ eventKey, callback, initialData }) => {
-  const [iterations, setIterations] = useState(100);
+  const [iterations, setIterations] = useState("100");
   const [data, setData] = useState(initialData);
 
   return (
@@ -48,14 +48,14 @@ const RandomHillClimbing = ({ eventKey, callback, initialData }) => {
   );
 };
 RandomHillClimbing.propTypes = {
-  eventKey: PropTypes.number.isRequired,
-  callback: PropTypes.string.isRequired,
-  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
+  eventKey: PropTypes.string.isRequired,
+  callback: PropTypes.func.isRequired,
+  initialData: PropTypes.string.isRequired,
 };
 
 const RandomRestartHillClimbing = ({ eventKey, callback, initialData }) => {
-  const [iterations, setIterations] = useState(100);
-  const [restarts, setRestarts] = useState(10);
+  const [iterations, setIterations] = useState("100");
+  const [restarts, setRestarts] = useState("10");
   const [data, setData] = useState(initialData);
 
   return (
@@ -102,14 +102,14 @@ const RandomRestartHillClimbing = ({ eventKey, callback, initialData }) => {
   );
 };
 RandomRestartHillClimbing.propTypes = {
-  eventKey: PropTypes.number.isRequired,
-  callback: PropTypes.string.isRequired,
-  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
+  eventKey: PropTypes.string.isRequired,
+  callback: PropTypes.func.isRequired,
+  initialData: PropTypes.string.isRequired,
 };
 
 const StochasticHillClimbing = ({ eventKey, callback, initialData }) => {
-  const [iterations, setIterations] = useState(100);
-  const [delta, setDelta] = useState(25);
+  const [iterations, setIterations] = useState("100");
+  const [delta, setDelta] = useState("25");
   const [data, setData] = useState(initialData);
 
   return (
@@ -153,16 +153,16 @@ const StochasticHillClimbing = ({ eventKey, callback, initialData }) => {
   );
 };
 StochasticHillClimbing.propTypes = {
-  eventKey: PropTypes.number.isRequired,
-  callback: PropTypes.string.isRequired,
-  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
+  eventKey: PropTypes.string.isRequired,
+  callback: PropTypes.func.isRequired,
+  initialData: PropTypes.string.isRequired,
 };
 
 const SimulatedAnnealing = ({ eventKey, callback, initialData }) => {
-  const [iterations, setIterations] = useState(100);
+  const [iterations, setIterations] = useState("100");
   const [data, setData] = useState(initialData);
-  const [temperature, setTemperature] = useState(50.0);
-  const [coolingRate, setCoolingRate] = useState(0.01);
+  const [temperature, setTemperature] = useState("50");
+  const [coolingRate, setCoolingRate] = useState("0.01");
 
   return (
     <Card>
@@ -212,9 +212,9 @@ const SimulatedAnnealing = ({ eventKey, callback, initialData }) => {
   );
 };
 SimulatedAnnealing.propTypes = {
-  eventKey: PropTypes.number.isRequired,
-  callback: PropTypes.string.isRequired,
-  initialData: PropTypes.arrayOf(PropTypes.any).isRequired,
+  eventKey: PropTypes.string.isRequired,
+  callback: PropTypes.func.isRequired,
+  initialData: PropTypes.string.isRequired,
 };
 
 const Data = ({ data, setData }) => {
@@ -228,7 +228,7 @@ const Data = ({ data, setData }) => {
   );
 };
 Data.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.string.isRequired,
   setData: PropTypes.func.isRequired,
 };
 
@@ -256,7 +256,7 @@ const Slider = ({ min, max, value, setValue, step = ".00001" }) => {
   );
 };
 Slider.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   setValue: PropTypes.func.isRequired,
@@ -272,12 +272,18 @@ const TemperatureOption = ({ temperature, setTemperature }) => {
       <div className="d-flex justify-content-center">
         <h5>Temperature: {temperature}</h5>
       </div>
-      <Slider min={0} max={100000} value={50} setValue={setTemperature} />
+      <Slider
+        min={0}
+        max={100000}
+        value={temperature}
+        setValue={setTemperature}
+        step=".0"
+      />
     </div>
   );
 };
 TemperatureOption.propTypes = {
-  temperature: PropTypes.number.isRequired,
+  temperature: PropTypes.string.isRequired,
   setTemperature: PropTypes.func.isRequired,
 };
 
@@ -301,7 +307,7 @@ const CustomOption = ({ title, value, min, max, updateFunction, step }) => {
 };
 CustomOption.propTypes = {
   title: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   updateFunction: PropTypes.func.isRequired,
@@ -319,7 +325,7 @@ const CoolingRateOption = ({ coolingRate, setCoolingRate }) => {
   );
 };
 CoolingRateOption.propTypes = {
-  coolingRate: PropTypes.number.isRequired,
+  coolingRate: PropTypes.string.isRequired,
   setCoolingRate: PropTypes.func.isRequired,
 };
 
@@ -337,23 +343,24 @@ const AlgorithmHeader = ({ eventKey, name }) => {
   );
 };
 AlgorithmHeader.propTypes = {
-  eventKey: PropTypes.number.isRequired,
+  eventKey: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 };
 
 const ExerciseDemo = ({ demoCallback, data }) => {
   const algorithms = [
-    RandomHillClimbing,
-    RandomRestartHillClimbing,
-    StochasticHillClimbing,
-    SimulatedAnnealing,
+    ["rmhc", RandomHillClimbing],
+    ["rrhc", RandomRestartHillClimbing],
+    ["shc", StochasticHillClimbing],
+    ["sa", SimulatedAnnealing],
   ];
 
   return (
     <Accordion>
-      {algorithms.map((Algorithm, i) => {
+      {algorithms.map(([key, Algorithm], i) => {
         return (
           <Algorithm
+            key={key}
             initialData={data}
             eventKey={i.toString(10)}
             callback={demoCallback}
@@ -365,7 +372,7 @@ const ExerciseDemo = ({ demoCallback, data }) => {
 };
 ExerciseDemo.propTypes = {
   demoCallback: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  data: PropTypes.string.isRequired,
 };
 
 export default ExerciseDemo;
