@@ -32,6 +32,7 @@ const ExerciseView = () => {
     <CardDeck className="d-flex justify-content-center">
       {exerciseData.map((exercise) => (
         <ExerciseCard
+          key={exercise.id}
           id={exercise.id}
           title={exercise.title}
           text={exercise.text}

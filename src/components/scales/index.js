@@ -40,15 +40,13 @@ const getStateAndFunctions = () => {
     const request = {
       problem: exercise.problem,
       algorithm,
-      data: exercise.data,
+      data: JSON.parse(exerciseData).data,
       ...extraFields,
     };
 
     submitDemo(request)
       .then((res) => res.json())
-      .then((requestResult) => {
-        updateState(requestResult);
-      })
+      .then((requestResult) => updateState(requestResult))
       .finally(() => setLoading(false));
   };
 
@@ -58,7 +56,7 @@ const getStateAndFunctions = () => {
     const request = {
       ...exercise,
       code,
-      data: exercise.data,
+      data: JSON.parse(exerciseData).data,
       iterations: Number.parseInt(iterations, 10),
     };
 
