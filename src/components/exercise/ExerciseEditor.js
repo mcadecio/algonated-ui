@@ -1,47 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MonacoEditor from "react-monaco-editor";
 import PropTypes from "prop-types";
-
-const MonacoDataEditor = ({ data, setData, language, height = "500" }) => {
-  return (
-    <div>
-      <MonacoExerciseEditor
-        code={data}
-        setCode={setData}
-        language={language}
-        height={height}
-      />
-    </div>
-  );
-};
-MonacoDataEditor.propTypes = {
-  data: PropTypes.string.isRequired,
-  setData: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired,
-};
-
-const DataOptions = ({ data, setData, height }) => {
-  const [innerData, setInnerData] = useState(data);
-
-  useEffect(() => {
-    setData(innerData);
-  }, [innerData, setData]);
-
-  return (
-    <MonacoDataEditor
-      data={innerData}
-      setData={setInnerData}
-      language="json"
-      height={height}
-    />
-  );
-};
-DataOptions.propTypes = {
-  data: PropTypes.string.isRequired,
-  setData: PropTypes.func.isRequired,
-  height: PropTypes.string.isRequired,
-};
+import { useDispatch, useSelector } from "react-redux";
+import { selectCode, updateCode } from "../../store/exercise.store";
 
 const monacoEditorConfig = () => {
   return {
@@ -57,7 +18,31 @@ const monacoEditorConfig = () => {
   };
 };
 
-const MonacoExerciseEditor = ({ code, setCode, language, height = "500" }) => {
+const DataOptions = ({ data, setData, height }) => {
+  return (
+    <div>
+      <MonacoEditor
+        width="auto"
+        height={height}
+        theme="vs-light"
+        value={data}
+        language="json"
+        options={monacoEditorConfig()}
+        onChange={(value) => setData(value)}
+      />
+    </div>
+  );
+};
+DataOptions.propTypes = {
+  data: PropTypes.string.isRequired,
+  setData: PropTypes.func.isRequired,
+  height: PropTypes.string.isRequired,
+};
+
+const MonacoExerciseEditor = ({ language, height = "500" }) => {
+  const code = useSelector(selectCode);
+  const dispatch = useDispatch();
+
   return (
     <div>
       <MonacoEditor
@@ -67,14 +52,12 @@ const MonacoExerciseEditor = ({ code, setCode, language, height = "500" }) => {
         value={code}
         language={language}
         options={monacoEditorConfig()}
-        onChange={(value) => setCode(value)}
+        onChange={(value) => dispatch(updateCode(value))}
       />
     </div>
   );
 };
 MonacoExerciseEditor.propTypes = {
-  code: PropTypes.string.isRequired,
-  setCode: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   height: PropTypes.string,
 };
@@ -82,4 +65,4 @@ MonacoExerciseEditor.defaultProps = {
   height: "500",
 };
 
-export { MonacoExerciseEditor, MonacoDataEditor, DataOptions };
+export { MonacoExerciseEditor, DataOptions };

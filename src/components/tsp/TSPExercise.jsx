@@ -1,28 +1,54 @@
 import React, { useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useDispatch, useSelector } from "react-redux";
 import DangerDismissibleAlert from "../../atoms/DangerDismissibleAlert";
 import ExerciseProblem from "../exercise/ExerciseProblem";
 import "./styles.css";
 import "../anime.css";
 import config from "./tsp.exercise.json";
 import TSPDescription from "./TSPDescription";
-import getStateAndFunctions from "./index";
 import { FixedNetworkAnimation } from "./animations/TSPAnimations";
 import SubmitCodeButton from "../../atoms/SubmitCodeButton";
 import ExerciseCodingArea from "../exercise/ExerciseCodingArea";
 import ExerciseInfo from "../exercise/ExerciseInfo";
 import ExerciseAnimationCard from "../exercise/animationCard/ExerciseAnimationCard";
+import { updateCode, updateData } from "../../store/exercise.store";
+import { distances } from "./tsp.data.48.json";
+import {
+  runCode,
+  runDemo,
+  selectConsoleOutput,
+  selectData,
+  selectIsLoading,
+  selectResult,
+  selectShowAlert,
+  selectSolutions,
+  selectSummary,
+} from "../../store/tsp.store";
 
 const TSPExercise = () => {
-  const { state, functions } = getStateAndFunctions();
+  const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
+  const consoleOutput = useSelector(selectConsoleOutput);
+  const summary = useSelector(selectSummary);
+  const showAlert = useSelector(selectShowAlert);
+  const solutions = useSelector(selectSolutions);
+  const result = useSelector(selectResult);
+  const data = useSelector(selectData);
+  const exerciseData = JSON.stringify({ data: distances }, null, 2);
   const alert = DangerDismissibleAlert({
     innerText: "It looks like something went wrong, check the output !",
   });
 
   useEffect(() => {
-    alert.setShow(state.showAlert);
-  }, [state.showAlert]);
+    alert.setShow(showAlert);
+  }, [showAlert]);
+
+  useEffect(() => {
+    dispatch(updateCode(config.exercise.defaultStarterCode));
+    dispatch(updateData(exerciseData));
+  }, []);
 
   return (
     <div className="tsp-exercise">
@@ -33,31 +59,28 @@ const TSPExercise = () => {
       <Row xs={1} sm={1} md={1} lg={1} xl={2}>
         <Col>
           <ExerciseCodingArea
-            code={state.code}
-            setCode={functions.setCode}
-            iterations={state.iterations}
-            setIterations={functions.setIterations}
-            data={state.exerciseData}
-            setData={functions.setExerciseData}
-            demoCallback={functions.runDemo}
+            data={exerciseData}
+            demoCallback={(algorithm, extraFields) =>
+              dispatch(runDemo({ algorithm, extraFields }))
+            }
           />
           <SubmitCodeButton
-            isLoading={state.isLoading}
-            callback={() => functions.runCode()}
+            isLoading={isLoading}
+            callback={() => dispatch(runCode())}
           />
         </Col>
         <Col>
           <ExerciseInfo
             alert={alert.alert}
-            consoleOutput={state.consoleOutput}
-            summary={state.summary}
+            consoleOutput={consoleOutput}
+            summary={summary}
           />
           <br />
           <ExerciseAnimationCard>
             <FixedNetworkAnimation
-              solutions={state.solutions}
-              solution={state.result}
-              weights={state.data}
+              solutions={solutions}
+              solution={result}
+              weights={data}
             />
           </ExerciseAnimationCard>
         </Col>

@@ -2,20 +2,19 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
+import { useDispatch, useSelector } from "react-redux";
 import ExerciseDemo from "./exerciseDemo/ExerciseDemo";
 import ShadowedCard from "../../atoms/shadowedCard/ShadowedCard";
 import { IterationsOptions } from "../../atoms/IterationsSlider";
 import { DataOptions, MonacoExerciseEditor } from "./ExerciseEditor";
+import {
+  selectData,
+  updateData,
+  selectIterations,
+  updateIterations,
+} from "../../store/exercise.store";
 
-const ExerciseCodingArea = ({
-  code,
-  setCode,
-  iterations,
-  setIterations,
-  data,
-  setData,
-  demoCallback,
-}) => {
+const ExerciseCodingArea = ({ data, demoCallback }) => {
   const [constantData] = useState(data);
   const [selected, setSelected] = useState("#editor");
   const tabs = [
@@ -34,16 +33,7 @@ const ExerciseCodingArea = ({
       return <ExerciseDemo demoCallback={demoCallback} data={constantData} />;
     }
     if (selection === "#editor") {
-      return (
-        <EditorWithTabs
-          code={code}
-          setCode={setCode}
-          data={data}
-          setData={setData}
-          iterations={iterations}
-          setIterations={setIterations}
-        />
-      );
+      return <EditorWithTabs />;
     }
     return <div />;
   };
@@ -57,22 +47,10 @@ const ExerciseCodingArea = ({
 };
 ExerciseCodingArea.propTypes = {
   data: PropTypes.string.isRequired,
-  setData: PropTypes.func.isRequired,
-  iterations: PropTypes.string.isRequired,
-  setIterations: PropTypes.func.isRequired,
-  code: PropTypes.string.isRequired,
-  setCode: PropTypes.func.isRequired,
   demoCallback: PropTypes.func.isRequired,
 };
 
-const EditorWithTabs = ({
-  data,
-  iterations,
-  setIterations,
-  setData,
-  code,
-  setCode,
-}) => {
+const EditorWithTabs = () => {
   const tabs = [
     {
       href: "#editor",
@@ -87,7 +65,9 @@ const EditorWithTabs = ({
       title: "Data",
     },
   ];
-
+  const dispatch = useDispatch();
+  const data = useSelector(selectData);
+  const iterations = useSelector(selectIterations);
   const [selected, setSelected] = useState("#editor");
   const selectTab = (selection) => {
     if (selection === "#iterations") {
@@ -95,18 +75,22 @@ const EditorWithTabs = ({
         <Card.Body>
           <IterationsOptions
             iterations={iterations}
-            setIterations={setIterations}
+            setIterations={(newVal) => dispatch(updateIterations(newVal))}
           />
         </Card.Body>
       );
     }
     if (selection === "#editor") {
-      return (
-        <MonacoExerciseEditor code={code} setCode={setCode} language="java" />
-      );
+      return <MonacoExerciseEditor language="java" />;
     }
     if (selection === "#data") {
-      return <DataOptions data={data} setData={setData} height="500" />;
+      return (
+        <DataOptions
+          data={data}
+          setData={(newData) => dispatch(updateData(newData))}
+          height="500"
+        />
+      );
     }
     return <div />;
   };
@@ -116,14 +100,6 @@ const EditorWithTabs = ({
       <FooterTabs changeTab={setSelected} tabNames={tabs} />
     </>
   );
-};
-EditorWithTabs.propTypes = {
-  data: PropTypes.string.isRequired,
-  setData: PropTypes.func.isRequired,
-  iterations: PropTypes.string.isRequired,
-  setIterations: PropTypes.func.isRequired,
-  code: PropTypes.string.isRequired,
-  setCode: PropTypes.func.isRequired,
 };
 
 const HeaderTabs = ({ changeTab, tabNames }) => {
